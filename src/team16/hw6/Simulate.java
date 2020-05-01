@@ -25,14 +25,15 @@ public class Simulate {
 	private static int time;                      //  time of the simulation
 	private static int timeForSquareToGetInfected;//  time needed for a space to get infected
 	private static int maskProtection;            //  how much the mask protects %100 (100 being full protection)
+	int amountOfAreas;
 	private int cnt=0;                            //  counter for counting how many people got infected
-	private int numOfAreas;                       //  number of areas in simulation
 	private static Random randomizer = new Random();
 	private static Scanner in = new Scanner(System.in);
 	
 	
 	//constructor
-	public Simulate(int mask, int immune, double humanInf, double spaceInf,double spacetoHuman, double moving, int timespace, int time, int timespacegettinginfected, int maskProtection, int numofareas){
+
+	public Simulate(int mask, int immune, double humanInf, double spaceInf,double spacetoHuman, double moving, int timespace, int time, int timespacegettinginfected, int maskProtection, int amountOfAreas){
 		maskUsePers=mask;
 		immunePers=immune;
 		humanInfP=humanInf;
@@ -42,14 +43,15 @@ public class Simulate {
 		//height=h;
 		//width=w;
 		//population=pop;
+		
 		timeForSpaceToBeSafe=timespace;
 		timeForSquareToGetInfected=timespacegettinginfected;
 		this.time=time;
 		this.maskProtection=maskProtection;
-		numOfAreas=numofareas;
 	}
-	public Simulate(int numOfAreas) {
-		this(20,10,0.7,0.6,0.4,0.6,8,60,3,20,numOfAreas);
+
+	public Simulate(int amountOfAreas) {
+		this(20,10,0.7,0.6,0.4,0.6,8,60,3,20,amountOfAreas);
 	}
 	
 	public void readBorder(Grid g, int n) {
@@ -130,9 +132,9 @@ public class Simulate {
 	 * This method runs the full simulation.
 	 */
 	public void runSimulation() {
-		Grid[] grids =new Grid[numOfAreas];
+		Grid[] grids =new Grid[amountOfAreas];
 		
-		for(int k=0; k<numOfAreas; k++) {
+		for(int k=0; k<amountOfAreas; k++) {
 			// need to add system.out
 			int pop=in.nextInt();
 			int height=in.nextInt();
@@ -145,7 +147,7 @@ public class Simulate {
 		
 		for(int i=0; i<time; i++) { //for each minute of the simulation
 			System.out.println("Minute: "+(i+1));
-			for(int j=0; j<numOfAreas; j++) {
+			for(int j=0; j<amountOfAreas; j++) {
 				runOneMinute(grids[j]); //run one minute of it
 			}
 		}
