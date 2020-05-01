@@ -144,7 +144,7 @@ public class Grid {
 		double r;
 		int xp=i;  
 		int yp=j;
-		if(!CheckIfSurrounded(i,j)) {   //first we must check that the human is not surrounded and can in fact move
+		if(isBorder(i,j)||!CheckIfSurrounded(i,j)) {   //first we must check that the human is not surrounded and can in fact move
 		while(!move) {                       
 			xp=i;                        //set new positions equal to current 
 			yp=j;
