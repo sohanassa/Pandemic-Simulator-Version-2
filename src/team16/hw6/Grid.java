@@ -176,6 +176,7 @@ public class Grid {
 			  if(isBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) {
 				  Human temp = human[i][j];
 				  human[i][j]=null;
+
 				  return temp;
 			  }
 			 if(xp>=0 && xp<height && yp>=0 && yp<width && human[xp][yp]==null) {//if the human can move to the new position
