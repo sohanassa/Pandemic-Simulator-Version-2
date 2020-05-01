@@ -19,7 +19,7 @@ public class ReadFromUser {
 		boolean flag=false;
 		Simulate s;
 		int amountOfAreas=0;
-		System.out.print("Give number of areas");
+		System.out.print("Give number of areas: ");
 		   amountOfAreas=in.nextInt();
 		do {
 			try {

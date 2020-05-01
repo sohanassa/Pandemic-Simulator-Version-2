@@ -63,28 +63,28 @@ public class Simulate {
 			do {
 				try {
 					flag=false;
-					System.out.print("Give the position of the borders (x, y): ");
+					System.out.print("Give the position of the border (x, y): ");
 					 x=in.nextInt();
 					 y=in.nextInt();
 					if(y!=0&&y!=g.getHeight()-1&&x!=0&&x!=g.getWidth()-1)
 						throw new Exception("This position can not ba a border");
 					
-					System.out.print("Where does this border lead?, (enter intiger number): ");
+					System.out.print("Where does this border lead?, (1-> for first area, 2-> for second area..): ");
 					dest=in.nextInt();
 					if(dest<=0 || dest>amountOfAreas)
-						throw new Exception("Destination must bigger >1 or <= than number of areas!");
+						throw new Exception("Destination must be bigger >1 or <= than number of areas!");
 				}
 				catch(InputMismatchException e) {
 					flag=true;
-					System.out.print(e.getMessage());
+					System.out.println(e.getMessage());
 				}
 				catch(Exception e) {
 					flag=true;
-					System.out.print(e.getMessage());
+					System.out.println(e.getMessage());
 				}
 				
 			}while(flag);
-			g.setAsBorder(x, y, dest);  // NOT complete 
+			g.setAsBorder(x, y, (dest-1));
 		}
 	}
 	
@@ -165,19 +165,21 @@ public class Simulate {
 			do {
 				try {
 					error=false;
-					System.out.println("Give the height and width of the area");
+					System.out.print("Give the height and width of area ("+(k+1)+") :");
 					    height=in.nextInt();
 					    width=in.nextInt();
 					 if(height<0||width<0)
 						 throw new Exception("Width and Heigth must be positive numbers");
-					 System.out.println("Give the population");
+					 
+					 System.out.print("Give the population: ");
 					    pop=in.nextInt();
 					   if(pop>width*height||pop<0)
 						   throw new Exception("Population must be a positive number and must be smaller than the area");
-					   System.out.println("Give the number of borders");
+					   
+					   System.out.print("Give the number of borders: ");
 					           numOfBorders=in.nextInt();
 					    if(numOfBorders<0||numOfBorders>width*height)
-					    	throw new Exception("Number of boarders must be a positive number, and it must be smaller than the area");
+					    	throw new Exception("Number of borders must be a positive number, and it must be smaller than the area");
 				}
 				catch(InputMismatchException e) {
 					error=true;
@@ -234,10 +236,11 @@ public class Simulate {
 						cnt++;    // counts how many people got infected
 					}
 				}
-				if(randomizer.nextDouble()<movingP)  //move the humans
+				if(randomizer.nextDouble()<movingP) {  //move the humans
 					traveler=g.move(i,j);
 					if(traveler!=null)  //an pume if(move) then check which on it border and then call the method to add a new human 
-						grids[g.getBorderWith(i, j)].setHuman(traveler, i, j);
+						grids[g.getBorderWith(i, j)].newHuman(traveler);
+				}
 			    else
 				     g.StayedInSamePosition(i, j); //else increase the time stayed in same position
 				
