@@ -25,7 +25,7 @@ public class Simulate {
 	private static int time;                      //  time of the simulation
 	private static int timeForSquareToGetInfected;//  time needed for a space to get infected
 	private static int maskProtection;            //  how much the mask protects %100 (100 being full protection)
-	int amountOfAreas;
+	private int amountOfAreas;
 	private int cnt=0;                            //  counter for counting how many people got infected
 	private static Random randomizer = new Random();
 	private static Scanner in = new Scanner(System.in);
@@ -43,7 +43,7 @@ public class Simulate {
 		//height=h;
 		//width=w;
 		//population=pop;
-		
+		this.amountOfAreas=amountOfAreas;
 		timeForSpaceToBeSafe=timespace;
 		timeForSquareToGetInfected=timespacegettinginfected;
 		this.time=time;
