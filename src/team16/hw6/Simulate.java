@@ -202,8 +202,15 @@ public class Simulate {
 					}
 				}
 				if(randomizer.nextDouble()<movingP)  //move the humans
-					 g.move(i,j) { //an pume if(move) then check which on it border and then call the method to add a new human 
-						
+					if( g.move(i,j)) { //an pume if(move) then check which on it border and then call the method to add a new human 
+						if(i==0)
+							grids[1].newHuman(g.getHumanAt(i, j));
+						else if(i==g.getWidth()-1)
+							grids[2].newHuman(g.getHumanAt(i, j));
+						else if (j==0)
+							grids[3].newHuman(g.getHumanAt(i, j));
+						else if(j==g.getHeight()-1)
+							grids[4].newHuman(g.getHumanAt(i, j));
 					}
 			    else
 				     g.StayedInSamePosition(i, j); //else increase the time stayed in same position
