@@ -138,7 +138,7 @@ public class Grid {
 	 * @param i represents the row of the current position
 	 * @param j represents the column of the current position
 	 */
-	public boolean move(int i,int j) {
+	public Human move(int i,int j) {
 		boolean move=false;     //will represent whether or not the human can actually move to new position 
 		double r;
 		int xp=i;  
@@ -173,8 +173,9 @@ public class Grid {
 				  yp++;
 			  }
 			  if(getBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) {
+				  Human h= human[i][j];
 				  human[i][j]=null;
-				  return true;
+				  return h;
 			  }
 			 if(xp>=0 && xp<height && yp>=0 && yp<width && human[xp][yp]==null) {//if the human can move to the new position
 				
@@ -186,7 +187,7 @@ public class Grid {
 		}
 		else //else if the human is surrounded 
 			StayedInSamePosition(i,j); //then call the method StayedInSamePosition
-		return false;
+		return null;
 		}
 	
 /**
