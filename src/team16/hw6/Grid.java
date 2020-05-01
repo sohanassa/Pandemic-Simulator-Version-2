@@ -20,6 +20,7 @@ public class Grid {
 	private int[][] freeOfInfectedPeopleTime;  //an array that holds the time that a certain position has been free of an infected person
 	private int[][] timeStayedInSamePosition;  //an array that holds the time that an infected person has been in the same position for
 	private boolean[][] borderSpace;
+	private boolean[][] borded;
 	private static Random randomizer = new Random();
 	private DrawSimulation draw;  //an object type DrawSimulation
 
@@ -54,6 +55,27 @@ public class Grid {
 		return true;
 		
 	}
+	public boolean getBorder(int i, int j) {
+		
+		if(borderSpace[i][j])
+		   return true;
+		return false;
+		
+	}
+	public void newHuman(Human h) {
+		boolean empty=false;
+		
+		while(!empty) {
+		int x=randomizer.nextInt(width);
+		int y=randomizer.nextInt(height);
+		if(getHumanAt(x,y)!=null) {
+			setHuman(h,x,y);
+			empty=true;
+		}
+		}
+		
+	}
+	
 	/**
 	 * This method returns the human at the position i,j in the array human.
 	 * @param i represents the row 
@@ -116,7 +138,7 @@ public class Grid {
 	 * @param i represents the row of the current position
 	 * @param j represents the column of the current position
 	 */
-	public void move(int i,int j) {
+	public boolean move(int i,int j) {
 		boolean move=false;     //will represent whether or not the human can actually move to new position 
 		double r;
 		int xp=i;  
@@ -150,7 +172,10 @@ public class Grid {
 				  xp++;
 				  yp++;
 			  }
-			  
+			  if(getBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) {
+				  human[i][j]=null;
+				  return true;
+			  }
 			 if(xp>=0 && xp<height && yp>=0 && yp<width && human[xp][yp]==null) {//if the human can move to the new position
 				
 				 move=true; //set move as true
@@ -161,6 +186,7 @@ public class Grid {
 		}
 		else //else if the human is surrounded 
 			StayedInSamePosition(i,j); //then call the method StayedInSamePosition
+		return false;
 		}
 	
 /**

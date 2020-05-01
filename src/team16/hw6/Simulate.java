@@ -167,7 +167,7 @@ public class Simulate {
 		for(int i=0; i<time; i++) { //for each minute of the simulation
 			System.out.println("Minute: "+(i+1));
 			for(int j=0; j<amountOfAreas; j++) {
-				runOneMinute(grids[j]); //run one minute of it
+				runOneMinute(grids[j],grids); //run one minute of it
 			}
 		}
 		System.out.println("The number of people who got infected is: "+ cnt);
@@ -180,7 +180,7 @@ public class Simulate {
 	 * 
 	 * @param g the grid
 	 */
-	private void runOneMinute(Grid g) {
+	private void runOneMinute(Grid g, Grid []grids) {
 		g.infectSpaces(timeForSquareToGetInfected); //infect all spaces that need to be
 		
 		for(int i=0;i<g.getHeight();i++) {                                  //going through  all the spaces in the array
@@ -202,7 +202,9 @@ public class Simulate {
 					}
 				}
 				if(randomizer.nextDouble()<movingP)  //move the humans
-					 g.move(i,j);
+					 g.move(i,j) { //an pume if(move) then check which on it border and then call the method to add a new human 
+						
+					}
 			    else
 				     g.StayedInSamePosition(i, j); //else increase the time stayed in same position
 				
