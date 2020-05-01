@@ -17,9 +17,9 @@ public class Simulate {
 	private static double humanSpaceP;            //  represents the possibility of a human to infect a space 0-1
 	private static double spaceHumanP;            //  represents the possibility of a space infecting a human 0-1
 	private static double movingP;                //  represents the possibility of moving 0-1
-	private static int height;                    //  the height of the place
-	private static int width;                     //  the width of the place
-	private static int population;                //  the number of people in the simulation
+	//private static int height;                    //  the height of the place
+	//private static int width;                     //  the width of the place
+	//private static int population;                //  the number of people in the simulation
 	private static int timeForSpaceToBeSafe;      //  represents the time needed for a space to be free of infection
 	private static int time;                      //  time of the simulation
 	private static int timeForSquareToGetInfected;//  time needed for a space to get infected
@@ -36,9 +36,9 @@ public class Simulate {
 		humanSpaceP=spaceInf;
 		spaceHumanP=spacetoHuman;
 		movingP=moving;
-		height=h;
-		width=w;
-		population=pop;
+		//height=h;
+		//width=w;
+		//population=pop;
 		timeForSpaceToBeSafe=timespace;
 		timeForSquareToGetInfected=timespacegettinginfected;
 		this.time=time;
@@ -53,10 +53,10 @@ public class Simulate {
 	 * 
 	 * @return Human[], array of humans.
 	 */
-	private Human[] makeHumans() {
+	private Human[] makeHumans(int pop) {
 		
-		Human[] h=new Human[population];
-		for(int i=0; i<population; i++) {
+		Human[] h=new Human[pop];
+		for(int i=0; i<pop; i++) {
 			boolean mask= randomizer.nextInt(100)<maskUsePers; //to determine if the human will be using mask
 			
 			if(i==0) //make the first human sick
@@ -75,12 +75,12 @@ public class Simulate {
 	 * @param human array of humans.
 	 * @return 2d array of humans.
 	 */
-	private Human[][] make2DHuman(Human[] human) {
+	private Human[][] make2DHuman(Human[] human, int pop, int height, int width) {
 		Human[][] h = new Human[height][width];
-		for(int i=0; i<population; i++) {
-			int[] pin=randomPos();  //get a random position
+		for(int i=0; i<pop; i++) {
+			int[] pin=randomPos(height, width);  //get a random position
 			while(h[pin[0]][pin[1]]!=null) {  //if that position is not null, get a new position
-				pin=randomPos();
+				pin=randomPos(height, width);
 			}
 			h[pin[0]][pin[1]]=human[i];
 		}
@@ -92,7 +92,7 @@ public class Simulate {
      * 
      * @return an int [2] array with the position.
      */
-    private int[] randomPos() {
+    private int[] randomPos(int height, int width) {
 		int[] pin= {randomizer.nextInt(height),randomizer.nextInt(width)};
 		return pin;
 	}
@@ -114,8 +114,8 @@ public class Simulate {
 	/**
 	 * This method runs the full simulation.
 	 */
-	public void runSimulation() {
-		Human[][] h=make2DHuman(makeHumans());
+	public void runSimulation(Human[] human, int pop, int height, int width) {
+		Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width);
 		Grid g = new Grid(h);
 		for(int i=0; i<time; i++) { //for each minute of the simulation
 			System.out.println("Minute: "+(i+1)); 
@@ -134,8 +134,8 @@ public class Simulate {
 	private void runOneMinute(Grid g) {
 		g.infectSpaces(timeForSquareToGetInfected); //infect all spaces that need to be
 		
-		for(int i=0;i<height;i++) {                                  //going through  all the spaces in the array
-			for(int j=0;j<width;j++) {
+		for(int i=0;i<g.getHeight();i++) {                                  //going through  all the spaces in the array
+			for(int j=0;j<g.getWidth();j++) {
 				
 			if(g.getHumanAt(i, j)!=null) {                               
 				if(g.getHumanAt(i,j).getClass()==Healthy.class) {    //if the human is healthy

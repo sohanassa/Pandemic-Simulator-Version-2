@@ -13,7 +13,7 @@ import edu.princeton.cs.introcs.StdDraw;
  */
 public class Grid {
 
-	private int length;                        //represents the length of the grid
+	private int height;                        //represents the length of the grid
 	private int width;                         //represents the width of the grid
 	private Human[][] human;                   //An array type Human
 	private boolean[][] infectedSpace;         //an array that represents whether or not the space at a certain position is infected
@@ -24,13 +24,13 @@ public class Grid {
 
 	
 	public Grid(Human[][] h) {            //constuctor receives a 2D array type Human
-		this.length=h.length;             //set length 
+		this.height=h.length;             //set length 
   		this.width=h[0].length;           //set width
 		this.human=h;                         //set the 2D Human array of Grid equal to the given one 
-		this.infectedSpace = new boolean[length][width];   //initialise the size of infectedspace
-		this.freeOfInfectedPeopleTime=new int[length][width];  //initialise size of freeOfInfectedPeopleTime
-		this.timeStayedInSamePosition=new int[length][width];  //initialise size of timeStayedInSamePositio
-		draw = new DrawSimulation(length,width);  
+		this.infectedSpace = new boolean[height][width];   //initialise the size of infectedspace
+		this.freeOfInfectedPeopleTime=new int[height][width];  //initialise size of freeOfInfectedPeopleTime
+		this.timeStayedInSamePosition=new int[height][width];  //initialise size of timeStayedInSamePositio
+		draw = new DrawSimulation(height,width);  
 		draw.DrawGrid();                                       //print the grid by callin the method DrawGrid in the class DrawSimulation
 	}
 	
@@ -38,7 +38,13 @@ public class Grid {
 		human[i][j]=hum;  //this sets the position i,j of the array human, equal to the given one
 	}
 	
+	public int getHeight() {
+		return height;
+	}
 	
+	public int getWidth() {
+		return width;
+	}
 	/**
 	 * This method returns the human at the position i,j in the array human.
 	 * @param i represents the row 
@@ -64,7 +70,7 @@ public class Grid {
 	 * @param timeNeeded represents the time needed for space to get infected
 	 */
 	public void infectSpaces(int timeNeeded) {
-		for(int i=0; i<length; i++)   //checking for every position in the array
+		for(int i=0; i<height; i++)   //checking for every position in the array
 			for(int j=0; j<width; j++)
 				if(human[i][j]!=null && (human[i][j].getClass()==Sick.class)) { //if the human in that position is Sick
 					//using randomizer,if the possibility is higher then the random number, and the time stayed in same spot is equal or larger than timeNeeded
@@ -136,7 +142,7 @@ public class Grid {
 				  yp++;
 			  }
 			  
-			 if(xp>=0 && xp<length && yp>=0 && yp<width && human[xp][yp]==null) {//if the human can move to the new position
+			 if(xp>=0 && xp<height && yp>=0 && yp<width && human[xp][yp]==null) {//if the human can move to the new position
 				
 				 move=true; //set move as true
 				 this.move(i,j,xp,yp); // call move to make the swap
@@ -157,7 +163,7 @@ public class Grid {
 private boolean CheckIfSurrounded(int i,int j) {
 	for(int k=i-1;k<i+2; k++) { //going around all the surrounding positions
 		for(int c=j-1;c<j+2;c++) {
-		  if(c>=0 && c<width && k>=0 && k<length && i!=k && j!=c) { //if we are still within the array
+		  if(c>=0 && c<width && k>=0 && k<height && i!=k && j!=c) { //if we are still within the array
 			  if(human[k][c]==null) //check if the position is null
 				  return false;     //if not then return false
 			  }
@@ -174,7 +180,7 @@ private boolean CheckIfSurrounded(int i,int j) {
 	public boolean CheckForInfected(int i,int j) {
 		for(int k=i-1;k<i+2; k++) { //going around all the surrounding positions
 			for(int c=j-1;c<j+2;c++) {
-			  if(c>=0 && c<width && k>=0 && k<length) {//if we are still within the array
+			  if(c>=0 && c<width && k>=0 && k<height) {//if we are still within the array
 				if(getHumanAt(k,c)!=null && (k!=i&&c!=j) && (getHumanAt(k,c).getClass()==Sick.class)) { //check if there is a sick human around
 					double random = randomizer.nextDouble();
 					//check if the healthy human gets sick
@@ -228,7 +234,7 @@ private boolean CheckIfSurrounded(int i,int j) {
 	 * @param timeForSquareToBeSafe imeForSquareToBeSafe represents the time that needs to pass in order for a position to become free of infection.
 	 */
 	public void AllArrayHasBeenFreeOfInfected(int timeForSquareToBeSafe) {
-		for(int i=0; i<length; i++) //for every position
+		for(int i=0; i<height; i++) //for every position
 			for(int j=0; j<width; j++) {
 				if(hasBeenFreeOfInfected(timeForSquareToBeSafe,i,j)) { //call the method hasBeenFreeOfInfected
 					infectedSpace[i][j]=false;   //if it returns true then set infectedSpace in that area equal to false 
@@ -241,7 +247,7 @@ private boolean CheckIfSurrounded(int i,int j) {
 	 * This method checks to see if the position is free of sick people and increases .
 	 */
 	public void AddFreeOfInfectedPeopleTime() {
-		for(int i=0; i<length; i++) //for every position
+		for(int i=0; i<height; i++) //for every position
 			for(int j=0; j<width; j++) {
 				if(human[i][j]==null || human[i][j].getClass()==Healthy.class) { //if it doesnt have a sick person in it
 					freeOfInfectedPeopleTime[i][j]++; //increase the time
