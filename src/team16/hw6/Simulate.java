@@ -158,13 +158,40 @@ public class Simulate {
 	 */
 	public void runSimulation() {
 		Grid[] grids =new Grid[amountOfAreas];
-		
+		int pop=0,width=0 ,height=0,numOfBorders=0;
 		for(int k=0; k<amountOfAreas; k++) {
 			// need to add system.out
-			int pop=in.nextInt();
-			int height=in.nextInt();
-			int width=in.nextInt();
-			int numOfBorders=in.nextInt();
+			boolean error=false;
+			do {
+				try {
+					error=false;
+					System.out.println("Give the height and width of the area");
+					    height=in.nextInt();
+					    width=in.nextInt();
+					 if(height<0||width<0)
+						 throw new Exception("Width and Heigth must be positive numbers");
+					 System.out.println("Give the population");
+					    pop=in.nextInt();
+					   if(pop>width*height||pop<0)
+						   throw new Exception("Population must be a positive number and must be smaller than the area");
+					   System.out.println("Give the number of borders");
+					           numOfBorders=in.nextInt();
+					    if(numOfBorders<0||numOfBorders>width*height)
+					    	throw new Exception("Number of boarders must be a positive number, and it must be smaller than the area");
+				}
+				catch(InputMismatchException e) {
+					error=true;
+					System.out.println(e.getMessage());
+					
+				}
+				catch(Exception e) {
+					error=true;
+					System.out.println(e.getMessage());
+					
+				}
+				
+			}while(error);
+		
 			Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width);
 			grids[k] = new Grid(h);
 			readBorder(grids[k], numOfBorders);
