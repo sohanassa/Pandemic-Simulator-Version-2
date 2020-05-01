@@ -18,6 +18,9 @@ public class ReadFromUser {
 		String choice="";
 		boolean flag=false;
 		Simulate s;
+		int amountOfAreas=0;
+		System.out.print("Give number of areas");
+		   amountOfAreas=in.nextInt();
 		do {
 			try {
 				flag=false;
@@ -36,37 +39,37 @@ public class ReadFromUser {
 		int h=0,w=0,people=0,time=0,timeSpace=0,maskPers=0,immunePers=0,timeSpaceInfected=0,maskProtection=0;
 		double movingP=0,infectingP=0,infSpaceP=0,spaceInfHuman=0;
 		
-			do {
-				try {
-					flag=false;
-					 System.out.print("Give size of place (height width):");
-					   h=in.nextInt();
-					   w=in.nextInt();
-					if(h<=0||w<=0)
-						 throw new Exception("Width and heigth must be larger than 0");
-					   System.out.print("Give number of people:");
-					   people = in.nextInt();
-					   if(people>(h*w)) //if the people are more than the capacity of out place 
-						   throw new Exception("Number of people must be smaller than space capacity"); //throw exception
-					
-				}
-				catch(InputMismatchException e) {              //catch  InputMismatchException
-					 flag=true;                               //set error as true
-				     System.out.println("Wrong input!");
-				     in.nextLine();
-			       }
-				
-				catch(Exception e) {
-					flag=true;
-					in.nextLine();
-					System.out.println(e.getMessage());
-				}
-				
-			}while(flag);
-			 s= new Simulate(h,w,people);
+//			do {
+//				try {
+//					flag=false;
+//					 System.out.print("Give size of place (height width):");
+//					   h=in.nextInt();
+//					   w=in.nextInt();
+//					if(h<=0||w<=0)
+//						 throw new Exception("Width and heigth must be larger than 0");
+//					   System.out.print("Give number of people:");
+//					   people = in.nextInt();
+//					   if(people>(h*w)) //if the people are more than the capacity of out place 
+//						   throw new Exception("Number of people must be smaller than space capacity"); //throw exception
+//					
+//				}
+//				catch(InputMismatchException e) {              //catch  InputMismatchException
+//					 flag=true;                               //set error as true
+//				     System.out.println("Wrong input!");
+//				     in.nextLine();
+//			       }
+//				
+//				catch(Exception e) {
+//					flag=true;
+//					in.nextLine();
+//					System.out.println(e.getMessage());
+//				}
+//				
+//			}while(flag);
+//			 s= new Simulate(h,w,people);
 			 
 		if(choice.equalsIgnoreCase("No")){
-			 s= new Simulate(h,w,people);
+			 s= new Simulate(amountOfAreas);
 		}
 		 	
 		
@@ -143,7 +146,7 @@ public class ReadFromUser {
 		
 	   }while(error);
 		//create an object type Simulate
-	  s= new Simulate(maskPers,immunePers,infectingP,infSpaceP,spaceInfHuman,movingP,h,w,people,timeSpace,time,timeSpaceInfected,maskProtection);
+	  s= new Simulate(maskPers,immunePers,infectingP,infSpaceP,spaceInfHuman,movingP,timeSpace,time,timeSpaceInfected,maskProtection,amountOfAreas);
 		}
 	   s.runSimulation(); //call runSimulation
 	   System.out.println("END OF SIMULATION!");

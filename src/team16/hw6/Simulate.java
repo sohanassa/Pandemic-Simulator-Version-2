@@ -24,12 +24,13 @@ public class Simulate {
 	private static int time;                      //  time of the simulation
 	private static int timeForSquareToGetInfected;//  time needed for a space to get infected
 	private static int maskProtection;            //  how much the mask protects %100 (100 being full protection)
+	int amountOfAreas;
 	private int cnt=0;                            //  counter for counting how many people got infected
 	private static Random randomizer = new Random();
 	
 	
 	//constructor
-	public Simulate(int mask, int immune, double humanInf, double spaceInf,double spacetoHuman, double moving, int h, int w, int pop, int timespace, int time, int timespacegettinginfected, int maskProtection){
+	public Simulate(int mask, int immune, double humanInf, double spaceInf,double spacetoHuman, double moving, int timespace, int time, int timespacegettinginfected, int maskProtection, int amountOfAreas){
 		maskUsePers=mask;
 		immunePers=immune;
 		humanInfP=humanInf;
@@ -39,13 +40,14 @@ public class Simulate {
 		//height=h;
 		//width=w;
 		//population=pop;
+		
 		timeForSpaceToBeSafe=timespace;
 		timeForSquareToGetInfected=timespacegettinginfected;
 		this.time=time;
 		this.maskProtection=maskProtection;
 	}
-	public Simulate(int h,int w, int pop) {
-		this(20,10,0.7,0.6,0.4,0.6,h,w,pop,8,60,3,20);
+	public Simulate(int amountOfAreas) {
+		this(20,10,0.7,0.6,0.4,0.6,8,60,3,20,amountOfAreas);
 	}
 	/**
 	 * This method creates all the humans in a 1D array.
