@@ -78,7 +78,7 @@ public class Simulate {
 				}
 				
 			}while(flag);
-			g.setAsBorder(x,y);
+			g.setAsBorder(x, y, 0);  // NOT complete 
 		}
 	}
 	
@@ -180,7 +180,7 @@ public class Simulate {
 	 * 
 	 * @param g the grid
 	 */
-	private void runOneMinute(Grid g, Grid []grids) {
+	private void runOneMinute(Grid g, Grid[] grids) {
 		g.infectSpaces(timeForSquareToGetInfected); //infect all spaces that need to be
 		
 		for(int i=0;i<g.getHeight();i++) {                                  //going through  all the spaces in the array
@@ -202,7 +202,7 @@ public class Simulate {
 					}
 				}
 				if(randomizer.nextDouble()<movingP)  //move the humans
-					if( g.move(i,j)) { //an pume if(move) then check which on it border and then call the method to add a new human 
+					if(g.move(i,j)==null) { //an pume if(move) then check which on it border and then call the method to add a new human 
 						if(i==0)
 							grids[1].newHuman(g.getHumanAt(i, j));
 						else if(i==g.getWidth()-1)

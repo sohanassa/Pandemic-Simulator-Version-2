@@ -19,7 +19,7 @@ public class Grid {
 	private boolean[][] infectedSpace;         //an array that represents whether or not the space at a certain position is infected
 	private int[][] freeOfInfectedPeopleTime;  //an array that holds the time that a certain position has been free of an infected person
 	private int[][] timeStayedInSamePosition;  //an array that holds the time that an infected person has been in the same position for
-	private boolean[][] borderSpace;
+	private int[][] borderSpace;
 	private boolean[][] borded;
 	private static Random randomizer = new Random();
 	private DrawSimulation draw;  //an object type DrawSimulation
@@ -32,7 +32,7 @@ public class Grid {
 		this.infectedSpace = new boolean[height][width];   //initialise the size of infectedspace
 		this.freeOfInfectedPeopleTime=new int[height][width];  //initialise size of freeOfInfectedPeopleTime
 		this.timeStayedInSamePosition=new int[height][width];  //initialise size of timeStayedInSamePositio
-		this.borderSpace=new boolean[height][width];
+		this.borderSpace=new int[height][width];
 		draw = new DrawSimulation(height,width);  
 		draw.DrawGrid();                                       //print the grid by callin the method DrawGrid in the class DrawSimulation
 	}
@@ -49,19 +49,20 @@ public class Grid {
 		return width;
 	}
 	
-	public boolean setAsBorder(int i, int j) {
+	public boolean setAsBorder(int i, int j, int destination) {
 		// need to add checking method
-		borderSpace[i][j]=true;
+		borderSpace[i][j]=destination;
 		return true;
 		
 	}
-	public boolean getBorder(int i, int j) {
+	public boolean isBorder(int i, int j) {
 		
-		if(borderSpace[i][j])
+		if(borderSpace[i][j]==0)
 		   return true;
 		return false;
 		
 	}
+	
 	public void newHuman(Human h) {
 		boolean empty=false;
 		
@@ -138,7 +139,7 @@ public class Grid {
 	 * @param i represents the row of the current position
 	 * @param j represents the column of the current position
 	 */
-	public boolean move(int i,int j) {
+	public Human move(int i,int j) {
 		boolean move=false;     //will represent whether or not the human can actually move to new position 
 		double r;
 		int xp=i;  
@@ -172,9 +173,10 @@ public class Grid {
 				  xp++;
 				  yp++;
 			  }
-			  if(getBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) {
+			  if(isBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) {
+				  Human temp = human[i][j];
 				  human[i][j]=null;
-				  return true;
+				  return temp;
 			  }
 			 if(xp>=0 && xp<height && yp>=0 && yp<width && human[xp][yp]==null) {//if the human can move to the new position
 				
@@ -186,7 +188,7 @@ public class Grid {
 		}
 		else //else if the human is surrounded 
 			StayedInSamePosition(i,j); //then call the method StayedInSamePosition
-		return false;
+		return null;
 		}
 	
 /**
