@@ -57,16 +57,22 @@ public class Simulate {
 	
 	public void readBorder(Grid g, int n) {
 		int x=0,y=0;
+		int dest=0;
 		for(int i=0; i<n; i++) {
 			boolean flag=false;
 			do {
 				try {
 					flag=false;
-					System.out.println("Give the position of the boarders");
+					System.out.print("Give the position of the borders (x, y): ");
 					 x=in.nextInt();
 					 y=in.nextInt();
 					if(y!=0&&y!=g.getHeight()-1&&x!=0&&x!=g.getWidth()-1)
 						throw new Exception("This position can not ba a border");
+					
+					System.out.print("Where does this border lead?, (enter intiger number): ");
+					dest=in.nextInt();
+					if(dest<=0 || dest>amountOfAreas)
+						throw new Exception("Destination must bigger >1 or <= than number of areas!");
 				}
 				catch(InputMismatchException e) {
 					flag=true;
@@ -78,7 +84,7 @@ public class Simulate {
 				}
 				
 			}while(flag);
-			g.setAsBorder(x, y, 0);  // NOT complete 
+			g.setAsBorder(x, y, dest);  // NOT complete 
 		}
 	}
 	
