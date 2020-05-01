@@ -55,7 +55,7 @@ public class Grid {
 		
 	}
 	public boolean isBorder(int i, int j) {
-		if(borderSpace[i][j]==0)
+		if(borderSpace[i][j]!=0)
 		   return true;
 		return false;
 	}
@@ -68,8 +68,8 @@ public class Grid {
 		boolean empty=false;
 		
 		while(!empty) {
-		int x=randomizer.nextInt(width);
-		int y=randomizer.nextInt(height);
+		int x=randomizer.nextInt(height);
+		int y=randomizer.nextInt(width);
 		if(getHumanAt(x,y)!=null) {
 			setHuman(h,x,y);
 			empty=true;
