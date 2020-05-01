@@ -241,7 +241,7 @@ public class Simulate {
 			    else
 				     g.StayedInSamePosition(i, j); //else increase the time stayed in same position
 				
-			}// null check
+			}// null check 
 			}//loop2
     	}//loop1
 		g.AddFreeOfInfectedPeopleTime();                         //counts time that space been empty of infected people
