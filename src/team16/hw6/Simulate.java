@@ -1,5 +1,6 @@
 package team16.hw6;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * This class creates an object called Simulate.
@@ -25,11 +26,13 @@ public class Simulate {
 	private static int timeForSquareToGetInfected;//  time needed for a space to get infected
 	private static int maskProtection;            //  how much the mask protects %100 (100 being full protection)
 	private int cnt=0;                            //  counter for counting how many people got infected
+	private int numOfAreas;                       //  number of areas in simulation
 	private static Random randomizer = new Random();
+	private static Scanner in = new Scanner(System.in);
 	
 	
 	//constructor
-	public Simulate(int mask, int immune, double humanInf, double spaceInf,double spacetoHuman, double moving, int h, int w, int pop, int timespace, int time, int timespacegettinginfected, int maskProtection){
+	public Simulate(int mask, int immune, double humanInf, double spaceInf,double spacetoHuman, double moving, int timespace, int time, int timespacegettinginfected, int maskProtection, int numofareas){
 		maskUsePers=mask;
 		immunePers=immune;
 		humanInfP=humanInf;
@@ -43,10 +46,22 @@ public class Simulate {
 		timeForSquareToGetInfected=timespacegettinginfected;
 		this.time=time;
 		this.maskProtection=maskProtection;
+		numOfAreas=numofareas;
 	}
-	public Simulate(int h,int w, int pop) {
-		this(20,10,0.7,0.6,0.4,0.6,h,w,pop,8,60,3,20);
+	public Simulate(int numOfAreas) {
+		this(20,10,0.7,0.6,0.4,0.6,8,60,3,20,numOfAreas);
 	}
+	
+	public void readBorder(Grid g, int n) {
+		
+		for(int i=0; i<n; i++) {
+			int x=in.nextInt();
+			int y=in.nextInt();
+			g.setAsBorder(x,y);
+		}
+	}
+	
+	
 	/**
 	 * This method creates all the humans in a 1D array.
 	 * Gives them random positions an sets the first human as infected
@@ -114,12 +129,25 @@ public class Simulate {
 	/**
 	 * This method runs the full simulation.
 	 */
-	public void runSimulation(Human[] human, int pop, int height, int width) {
-		Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width);
-		Grid g = new Grid(h);
+	public void runSimulation() {
+		Grid[] grids =new Grid[numOfAreas];
+		
+		for(int k=0; k<numOfAreas; k++) {
+			// need to add system.out
+			int pop=in.nextInt();
+			int height=in.nextInt();
+			int width=in.nextInt();
+			int numOfBorders=in.nextInt();
+			Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width);
+			grids[k] = new Grid(h);
+			readBorder(grids[k], numOfBorders);
+		}
+		
 		for(int i=0; i<time; i++) { //for each minute of the simulation
-			System.out.println("Minute: "+(i+1)); 
-			runOneMinute(g); //run one minute of it
+			System.out.println("Minute: "+(i+1));
+			for(int j=0; j<numOfAreas; j++) {
+				runOneMinute(grids[j]); //run one minute of it
+			}
 		}
 		System.out.println("The number of people who got infected is: "+ cnt);
 		

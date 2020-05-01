@@ -19,6 +19,7 @@ public class Grid {
 	private boolean[][] infectedSpace;         //an array that represents whether or not the space at a certain position is infected
 	private int[][] freeOfInfectedPeopleTime;  //an array that holds the time that a certain position has been free of an infected person
 	private int[][] timeStayedInSamePosition;  //an array that holds the time that an infected person has been in the same position for
+	private boolean[][] borderSpace;
 	private static Random randomizer = new Random();
 	private DrawSimulation draw;  //an object type DrawSimulation
 
@@ -30,6 +31,7 @@ public class Grid {
 		this.infectedSpace = new boolean[height][width];   //initialise the size of infectedspace
 		this.freeOfInfectedPeopleTime=new int[height][width];  //initialise size of freeOfInfectedPeopleTime
 		this.timeStayedInSamePosition=new int[height][width];  //initialise size of timeStayedInSamePositio
+		this.borderSpace=new boolean[height][width];
 		draw = new DrawSimulation(height,width);  
 		draw.DrawGrid();                                       //print the grid by callin the method DrawGrid in the class DrawSimulation
 	}
@@ -44,6 +46,13 @@ public class Grid {
 	
 	public int getWidth() {
 		return width;
+	}
+	
+	public boolean setAsBorder(int i, int j) {
+		// need to add checking method
+		borderSpace[i][j]=true;
+		return true;
+		
 	}
 	/**
 	 * This method returns the human at the position i,j in the array human.
