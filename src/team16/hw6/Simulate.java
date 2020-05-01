@@ -8,7 +8,7 @@ import java.util.Scanner;
  * Simulates the pandemic by using the data that the user gives, uses class Grid to control the environment
  * 
  * @author Zoe Passiadou
- * @author Sohaib Nassar
+ * @author Sohaib Nassar 
  *
  */
 public class Simulate {
