@@ -20,7 +20,6 @@ public class Grid {
 	private int[][] freeOfInfectedPeopleTime;  //an array that holds the time that a certain position has been free of an infected person
 	private int[][] timeStayedInSamePosition;  //an array that holds the time that an infected person has been in the same position for
 	private int[][] borderSpace;
-	private boolean[][] borded;
 	private static Random randomizer = new Random();
 	private DrawSimulation draw;  //an object type DrawSimulation
 
@@ -56,11 +55,13 @@ public class Grid {
 		
 	}
 	public boolean isBorder(int i, int j) {
-		
 		if(borderSpace[i][j]==0)
 		   return true;
 		return false;
-		
+	}
+	
+	public int getBorderWith(int i, int j) {
+		return borderSpace[i][j];
 	}
 	
 	public void newHuman(Human h) {

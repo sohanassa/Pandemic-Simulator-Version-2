@@ -188,7 +188,7 @@ public class Simulate {
 	 */
 	private void runOneMinute(Grid g, Grid[] grids) {
 		g.infectSpaces(timeForSquareToGetInfected); //infect all spaces that need to be
-		
+		Human traveler=null;
 		for(int i=0;i<g.getHeight();i++) {                                  //going through  all the spaces in the array
 			for(int j=0;j<g.getWidth();j++) {
 				
@@ -208,16 +208,9 @@ public class Simulate {
 					}
 				}
 				if(randomizer.nextDouble()<movingP)  //move the humans
-					if(g.move(i,j)==null) { //an pume if(move) then check which on it border and then call the method to add a new human 
-						if(i==0)
-							grids[1].newHuman(g.getHumanAt(i, j));
-						else if(i==g.getWidth()-1)
-							grids[2].newHuman(g.getHumanAt(i, j));
-						else if (j==0)
-							grids[3].newHuman(g.getHumanAt(i, j));
-						else if(j==g.getHeight()-1)
-							grids[4].newHuman(g.getHumanAt(i, j));
-					}
+					traveler=g.move(i,j);
+					if(traveler!=null)  //an pume if(move) then check which on it border and then call the method to add a new human 
+						grids[g.getBorderWith(i, j)].setHuman(traveler, i, j);
 			    else
 				     g.StayedInSamePosition(i, j); //else increase the time stayed in same position
 				
