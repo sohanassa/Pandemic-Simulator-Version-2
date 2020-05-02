@@ -19,9 +19,6 @@ public class Simulate {
 	private static double humanSpaceP;            //  represents the possibility of a human to infect a space 0-1
 	private static double spaceHumanP;            //  represents the possibility of a space infecting a human 0-1
 	private static double movingP;                //  represents the possibility of moving 0-1
-	//private static int height;                    //  the height of the place
-	//private static int width;                     //  the width of the place
-	//private static int population;                //  the number of people in the simulation
 	private static int timeForSpaceToBeSafe;      //  represents the time needed for a space to be free of infection
 	private static int time;                      //  time of the simulation
 	private static int timeForSquareToGetInfected;//  time needed for a space to get infected
@@ -41,9 +38,6 @@ public class Simulate {
 		humanSpaceP=spaceInf;
 		spaceHumanP=spacetoHuman;
 		movingP=moving;
-		//height=h;
-		//width=w;
-		//population=pop;
 		this.amountOfAreas=amountOfAreas;
 		timeForSpaceToBeSafe=timespace;
 		timeForSquareToGetInfected=timespacegettinginfected;
@@ -57,6 +51,7 @@ public class Simulate {
 	
 	/**
 	 * This method read the border areas of  grid.
+	 * 
 	 * @param g the grid
 	 * @param n the amount of borders
 	 */
@@ -77,11 +72,11 @@ public class Simulate {
 						throw new Exception("This position can not ba a border"); //throw exception if that position can not be a border
 					
 					System.out.print("\nWhere does this border lead?, (1-> for first area, 2-> for second area..): ");
-					dest=in.nextInt(); //give the grid which the border leads to
+					dest=in.nextInt();       //give the grid which the border leads to
 					if(dest<=0 || dest>amountOfAreas)
 						throw new Exception("Destination must be bigger >1 or <= than number of areas!"); //throw exception if the input was wrong
 				}
-				catch(InputMismatchException e) { //catch exceptions
+				catch(InputMismatchException e) {   //catch exceptions
 					flag=true;
 					System.out.println(e.getMessage());
 				}
@@ -92,7 +87,7 @@ public class Simulate {
 				
 				
 			}while(flag);
-			g.setAsBorder(x, y, dest);
+			g.setAsBorder(x, y, dest);   // sets the coordinates and destination of border in the grid 
 		}
 	}
 	
@@ -165,7 +160,7 @@ public class Simulate {
 	 * This method runs the full simulation.
 	 */
 	public void runSimulation() {
-		Grid[] grids =new Grid[amountOfAreas];
+		Grid[] grids =new Grid[amountOfAreas];    // aray of areas as objects grid
 		int pop=0,width=0 ,height=0,numOfBorders=0;
 		for(int k=0; k<amountOfAreas; k++) {
 			boolean error=false;
@@ -173,21 +168,22 @@ public class Simulate {
 				try {
 					error=false;
 					System.out.print("\nGive the height of area ("+(k+1)+") :");  //give the height of the grid
-					    height=in.nextInt();
-					    System.out.print("\nGive the width of area ("+(k+1)+") :");  //give the width of the grid
-					    width=in.nextInt();
+					height=in.nextInt();
+					System.out.print("\nGive the width of area ("+(k+1)+") :");  //give the width of the grid
+					width=in.nextInt();
 					 if(height<0||width<0)
 						 throw new Exception("Width and Heigth must be positive numbers"); //throw exception if input was wrong
 					 
 					 System.out.print("Give the population: ");   //give the population
-					    pop=in.nextInt();
-					   if(pop>width*height||pop<0)
-						   throw new Exception("Population must be a positive number and must be smaller than the area");
-					   //throw exception if input was wrong
-					   System.out.print("Give the number of borders: "); //give the numbers of borders that the grid has
-					           numOfBorders=in.nextInt();
-					    if(numOfBorders<0||numOfBorders>width*height)
-					    	throw new Exception("Number of borders must be a positive number, and it must be smaller than the area"); //throw exception if input is wrong
+					 pop=in.nextInt();
+					 if(pop>width*height||pop<0)
+					  throw new Exception("Population must be a positive number and must be smaller than the area");
+					 //throw exception if input was wrong
+					 
+					 System.out.print("Give the number of borders: "); //give the numbers of borders that the grid has
+					 numOfBorders=in.nextInt();
+					 if(numOfBorders<0||numOfBorders>width*height)
+					    throw new Exception("Number of borders must be a positive number, and it must be smaller than the area"); //throw exception if input is wrong
 				}
 				catch(InputMismatchException e) { //catch exceptions
 					error=true;
@@ -202,20 +198,20 @@ public class Simulate {
 				
 			}while(error);
 		
-			Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width); //make the array
-			grids[k] = new Grid(h); //put each grid in an array of grids
-			readBorder(grids[k], numOfBorders); //go to read borders
+			Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width); //makes the 2d array
+			grids[k] = new Grid(h);                                       //makes object grid
+			readBorder(grids[k], numOfBorders);                           //reads the borders of the area
 		}
-		for(int j=0; j<amountOfAreas; j++) {  //for each grid
-			grids[j].Drawgrid();              //draw it
+		for(int j=0; j<amountOfAreas; j++) {                              //for each area
+			grids[j].Drawgrid();                                          //draws the grid
 			for(int i=0;i<grids[j].getHeight();i++) {
 				for(int k=0;k<grids[j].getWidth();k++) {
-					grids[j].DrawOne(i, k);               //call drawOne for each position of every grid
+					grids[j].DrawOne(i, k);                               //draws the initial state of the grid
 				}
 			}
-		   for(int i=0; i<time; i++) { //for each minute of the simulation
+		   for(int i=0; i<time; i++) {                                    //for each minute of the simulation
 			   System.out.println("Minute: "+(i+1));
-			   runOneMinute(j,grids); //run one minute of it
+			   runOneMinute(j,grids);                                     //run one minute of it
 			}
 		   System.out.println("\n");
 		}
@@ -230,45 +226,44 @@ public class Simulate {
 	 * @param g the grid
 	 */
 	private void runOneMinute(int area_num, Grid[] grids) {
-		Grid g=grids[area_num];
-		g.infectSpaces(timeForSquareToGetInfected); //infect all spaces that need to be
-		Human traveler=null;
-		for(int i=0;i<g.getHeight();i++) {                                  //going through  all the spaces in the array
+		Grid g=grids[area_num];                                              // g is the grid of the area that is going to be simulated
+		g.infectSpaces(timeForSquareToGetInfected);                          //infect all spaces that need to be
+		Human traveler=null;                                                 // traveler is a human who will change areas
+		for(int i=0;i<g.getHeight();i++) {                                   //going through  all the spaces in the array
 			for(int j=0;j<g.getWidth();j++) {
 				
 			if(g.getHumanAt(i, j)!=null) {    
-				if(g.getHumanAt(i,j).getClass()==Healthy.class) {    //if the human is healthy
+				if(g.getHumanAt(i,j).getClass()==Healthy.class) {            //if the human is healthy
 					Healthy healthyPer = (Healthy) g.getHumanAt(i, j);
 					if(!healthyPer.getImmune() && g.CheckForInfected(i, j)) { //and it is not immune and has gotten infected be other human
 						g.setHuman(makeSick(g.getHumanAt(i, j)), i, j);       //make sick
 						System.out.println("\tA person was infected in position ("+i+","+j+") by another person!");
-						cnt++;    // counts how many people got infected
+						cnt++;                                                // counts how many people got infected
 					}
 					
-					if(!healthyPer.getImmune() && g.CheckForInfectedSpace(i, j, spaceHumanP)) {//else if it got infected by space
-						g.setHuman(makeSick(g.getHumanAt(i, j)), i, j);   //make sick
+					if(!healthyPer.getImmune() && g.CheckForInfectedSpace(i, j, spaceHumanP)) {   //else if it got infected by space
+						g.setHuman(makeSick(g.getHumanAt(i, j)), i, j);      //make sick
 						System.out.println("\tA person was infected in position ("+i+","+j+") by the space around him/her!");
-						cnt++;    // counts how many people got infected
+						cnt++;                                               // counts how many people got infected
 					}
 				}
-				if(randomizer.nextDouble()<movingP) {  //move the humans
-					//int bordering = g.getBorderWith(i, j);
-					traveler=g.move(i,j); //get human that was returned ny movr
-					if(traveler!=null) {  //if it isnt null 
-						if(grids[g.getBorderWith(i, j)-1].newHuman(traveler)==true)//if new human can be set there 
+				if(randomizer.nextDouble()<movingP) {                        //Possibility of moving the humans
+					traveler=g.move(i,j);                                    //returns a human who have left the area or returns null if no one left
+					if(traveler!=null) {                                     //if its a human 
+						if(grids[g.getBorderWith(i, j)-1].newHuman(traveler)==true)    //if new human can be set there 
 						   System.out.println("\tPerson moved from area "+(area_num+1)+" to area "+g.getBorderWith(i, j));
 						else
-							g.setHuman(traveler, i, j); //set new human in the grid
+							g.setHuman(traveler, i, j);                      // human put back in his previous position because the area is full
 					}
 				}
 			    else 
-				     g.StayedInSamePosition(i, j); //else increase the time stayed in same position
+				     g.StayedInSamePosition(i, j);                           //else increase the time stayed in same position
 				
 			}// null check 
 			}//loop2
     	}//loop1
-		g.AddFreeOfInfectedPeopleTime();                         //counts time that space been empty of infected people
-		g.AllArrayHasBeenFreeOfInfected(timeForSpaceToBeSafe);  //makes all infected spaces that have been clear of infected people for some time as safeA
+		g.AddFreeOfInfectedPeopleTime();                                     //counts time that space been empty of infected people
+		g.AllArrayHasBeenFreeOfInfected(timeForSpaceToBeSafe);               //makes all infected spaces that have been clear of infected people for some time as safeA
 	}//method
 	
 }
