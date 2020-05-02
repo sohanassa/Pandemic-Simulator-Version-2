@@ -55,28 +55,33 @@ public class Simulate {
 		this(20,10,0.7,0.6,0.4,0.6,8,60,3,20,amountOfAreas);
 	}
 	
+	/**
+	 * This method read the border areas of  grid.
+	 * @param g the grid
+	 * @param n the amount of borders
+	 */
 	public void readBorder(Grid g, int n) {
 		int x=0,y=0;
 		int dest=0;
-		for(int i=0; i<n; i++) {
+		for(int i=0; i<n; i++) {  //for each border
 			boolean flag=false;
 			do {
 				try {
 					flag=false;
-					System.out.println("Give the position of  border ("+(i+1)+")");
+					System.out.println("Give the position of  border ("+(i+1)+")"); //give the coordinates of the position
 					System.out.print("Give x coordinate: ");
 					 x=in.nextInt();
 					 System.out.print("Give y coordinate: ");
 					 y=in.nextInt();
 					if(x!=0 && x!=g.getHeight()-1 && y!=0 && y!=g.getWidth()-1)
-						throw new Exception("This position can not ba a border");
+						throw new Exception("This position can not ba a border"); //throw exception if that position can not be a border
 					
 					System.out.print("\nWhere does this border lead?, (1-> for first area, 2-> for second area..): ");
-					dest=in.nextInt();
+					dest=in.nextInt(); //give the grid which the border leads to
 					if(dest<=0 || dest>amountOfAreas)
-						throw new Exception("Destination must be bigger >1 or <= than number of areas!");
+						throw new Exception("Destination must be bigger >1 or <= than number of areas!"); //throw exception if the input was wrong
 				}
-				catch(InputMismatchException e) {
+				catch(InputMismatchException e) { //catch exceptions
 					flag=true;
 					System.out.println(e.getMessage());
 				}
@@ -167,24 +172,24 @@ public class Simulate {
 			do {
 				try {
 					error=false;
-					System.out.print("\nGive the height of area ("+(k+1)+") :");
+					System.out.print("\nGive the height of area ("+(k+1)+") :");  //give the height of the grid
 					    height=in.nextInt();
-					    System.out.print("\nGive the width of area ("+(k+1)+") :");
+					    System.out.print("\nGive the width of area ("+(k+1)+") :");  //give the width of the grid
 					    width=in.nextInt();
 					 if(height<0||width<0)
-						 throw new Exception("Width and Heigth must be positive numbers");
+						 throw new Exception("Width and Heigth must be positive numbers"); //throw exception if input was wrong
 					 
-					 System.out.print("Give the population: ");
+					 System.out.print("Give the population: ");   //give the population
 					    pop=in.nextInt();
 					   if(pop>width*height||pop<0)
 						   throw new Exception("Population must be a positive number and must be smaller than the area");
-					   
-					   System.out.print("Give the number of borders: ");
+					   //throw exception if input was wrong
+					   System.out.print("Give the number of borders: "); //give the numbers of borders that the grid has
 					           numOfBorders=in.nextInt();
 					    if(numOfBorders<0||numOfBorders>width*height)
-					    	throw new Exception("Number of borders must be a positive number, and it must be smaller than the area");
+					    	throw new Exception("Number of borders must be a positive number, and it must be smaller than the area"); //throw exception if input is wrong
 				}
-				catch(InputMismatchException e) {
+				catch(InputMismatchException e) { //catch exceptions
 					error=true;
 					System.out.println(e.getMessage());
 					
@@ -197,15 +202,15 @@ public class Simulate {
 				
 			}while(error);
 		
-			Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width);
-			grids[k] = new Grid(h);
-			readBorder(grids[k], numOfBorders);
+			Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width); //make the array
+			grids[k] = new Grid(h); //put each grid in an array of grids
+			readBorder(grids[k], numOfBorders); //go to read borders
 		}
-		for(int j=0; j<amountOfAreas; j++) {
-			grids[j].Drawgrid();
+		for(int j=0; j<amountOfAreas; j++) {  //for each grid
+			grids[j].Drawgrid();              //draw it
 			for(int i=0;i<grids[j].getHeight();i++) {
 				for(int k=0;k<grids[j].getWidth();k++) {
-					grids[j].DrawOne(i, k);
+					grids[j].DrawOne(i, k);               //call drawOne for each position of every grid
 				}
 			}
 		   for(int i=0; i<time; i++) { //for each minute of the simulation
@@ -248,15 +253,15 @@ public class Simulate {
 				}
 				if(randomizer.nextDouble()<movingP) {  //move the humans
 					//int bordering = g.getBorderWith(i, j);
-					traveler=g.move(i,j);
-					if(traveler!=null) {  //an pume if(move) then check which on it border and then call the method to add a new human 
-						if(grids[g.getBorderWith(i, j)-1].newHuman(traveler)==true)
+					traveler=g.move(i,j); //get human that was returned ny movr
+					if(traveler!=null) {  //if it isnt null 
+						if(grids[g.getBorderWith(i, j)-1].newHuman(traveler)==true)//if new human can be set there 
 						   System.out.println("\tPerson moved from area "+(area_num+1)+" to area "+g.getBorderWith(i, j));
 						else
-							g.setHuman(traveler, i, j);
+							g.setHuman(traveler, i, j); //set new human in the grid
 					}
 				}
-			    else
+			    else 
 				     g.StayedInSamePosition(i, j); //else increase the time stayed in same position
 				
 			}// null check 

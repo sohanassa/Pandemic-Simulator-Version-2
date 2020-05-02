@@ -351,6 +351,7 @@ private boolean CheckIfSurrounded(int i,int j) {
 		   timeStayedInSamePosition[i][j]++;
 	}
 	
+	
 	/**
 	 * This method is used to represents the humans and the infected area on the canvas.
 	 * 
