@@ -85,6 +85,7 @@ public class Simulate {
 					System.out.println(e.getMessage());
 				}
 				
+				
 			}while(flag);
 			g.setAsBorder(x, y, dest);
 		}
