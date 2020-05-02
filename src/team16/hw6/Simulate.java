@@ -63,13 +63,15 @@ public class Simulate {
 			do {
 				try {
 					flag=false;
-					System.out.print("Give the position of the border (x, y): ");
+					System.out.println("Give the position of  border ("+(i+1)+")");
+					System.out.print("Give x coordinate: ");
 					 x=in.nextInt();
+					 System.out.print("Give y coordinate: ");
 					 y=in.nextInt();
 					if(x!=0 && x!=g.getHeight()-1 && y!=0 && y!=g.getWidth()-1)
 						throw new Exception("This position can not ba a border");
 					
-					System.out.print("Where does this border lead?, (1-> for first area, 2-> for second area..): ");
+					System.out.print("\nWhere does this border lead?, (1-> for first area, 2-> for second area..): ");
 					dest=in.nextInt();
 					if(dest<=0 || dest>amountOfAreas)
 						throw new Exception("Destination must be bigger >1 or <= than number of areas!");
@@ -164,8 +166,9 @@ public class Simulate {
 			do {
 				try {
 					error=false;
-					System.out.print("\nGive the height and width of area ("+(k+1)+") :");
+					System.out.print("\nGive the height of area ("+(k+1)+") :");
 					    height=in.nextInt();
+					    System.out.print("\nGive the width of area ("+(k+1)+") :");
 					    width=in.nextInt();
 					 if(height<0||width<0)
 						 throw new Exception("Width and Heigth must be positive numbers");
