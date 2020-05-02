@@ -38,6 +38,7 @@ public class Grid {
 	
 	public void setHuman(Human hum, int i, int j) {    //this method takes as parameters a Human and two integers
 		human[i][j]=hum;  //this sets the position i,j of the array human, equal to the given one
+		System.out.println("human set");
 	}
 	
 	public int getHeight() {
@@ -73,6 +74,8 @@ public class Grid {
 		if(getHumanAt(x,y)!=null) {
 			setHuman(h,x,y);
 			empty=true;
+			System.out.println("human found pos");
+			//DrawOne(x,y);
 		}
 		}
 		
@@ -177,7 +180,7 @@ public class Grid {
 			  if(isBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) {
 				  Human temp = human[i][j];
 				  human[i][j]=null;
-
+				  DrawOne(i,j);
 				  return temp;
 			  }
 			 if(xp>=0 && xp<height && yp>=0 && yp<width && human[xp][yp]==null) {//if the human can move to the new position
@@ -310,7 +313,7 @@ private boolean CheckIfSurrounded(int i,int j) {
 	 * @param i represents the row 
 	 * @param j represents the column
 	 */
-	private void DrawOne(int i, int j) {
+	public void DrawOne(int i, int j) {
 		if(infectedSpace[i][j])             //if the area is infected
 			draw.DrawInfectedArea(i, j);      //call DrawInfectedArea
 		else

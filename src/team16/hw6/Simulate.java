@@ -198,11 +198,10 @@ public class Simulate {
 			grids[k] = new Grid(h);
 			readBorder(grids[k], numOfBorders);
 		}
-		
-		for(int i=0; i<time; i++) { //for each minute of the simulation
-			System.out.println("Minute: "+(i+1));
-			for(int j=0; j<amountOfAreas; j++) {
-				runOneMinute(j,grids); //run one minute of it
+		for(int j=0; j<amountOfAreas; j++) {
+		   for(int i=0; i<time; i++) { //for each minute of the simulation
+			   System.out.println("Minute: "+(i+1));
+			   runOneMinute(j,grids); //run one minute of it
 			}
 		}
 		System.out.println("The number of people who got infected is: "+ cnt);
@@ -219,10 +218,12 @@ public class Simulate {
 		Grid g=grids[area_num];
 		g.infectSpaces(timeForSquareToGetInfected); //infect all spaces that need to be
 		Human traveler=null;
+		int cnt2=0;
 		for(int i=0;i<g.getHeight();i++) {                                  //going through  all the spaces in the array
 			for(int j=0;j<g.getWidth();j++) {
 				
-			if(g.getHumanAt(i, j)!=null) {                              
+			if(g.getHumanAt(i, j)!=null) {    
+				cnt2++;
 				if(g.getHumanAt(i,j).getClass()==Healthy.class) {    //if the human is healthy
 					Healthy healthyPer = (Healthy) g.getHumanAt(i, j);
 					if(!healthyPer.getImmune() && g.CheckForInfected(i, j)) { //and it is not immune and has gotten infected be other human
@@ -243,6 +244,7 @@ public class Simulate {
 					if(traveler!=null) {  //an pume if(move) then check which on it border and then call the method to add a new human 
 						grids[g.getBorderWith(i, j)-1].newHuman(traveler);
 						System.out.println("Person moved from area "+(area_num+1)+" to area "+g.getBorderWith(i, j));
+						cnt2--;
 					}
 				}
 			    else
@@ -251,6 +253,7 @@ public class Simulate {
 			}// null check 
 			}//loop2
     	}//loop1
+		System.out.println(cnt2+" humans are still present");
 		g.AddFreeOfInfectedPeopleTime();                         //counts time that space been empty of infected people
 		g.AllArrayHasBeenFreeOfInfected(timeForSpaceToBeSafe);  //makes all infected spaces that have been clear of infected people for some time as safeA
 	}//method
