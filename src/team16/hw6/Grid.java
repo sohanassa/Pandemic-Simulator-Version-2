@@ -326,8 +326,12 @@ private boolean CheckIfSurrounded(int i,int j) {
 	 * @param j represents the column
 	 */
 	public void DrawOne(int i, int j) {
-		if(infectedSpace[i][j])             //if the area is infected
+		if(infectedSpace[i][j]&&!isBorder(i,j))             //if the area is infected
 			draw.DrawInfectedArea(i, j);      //call DrawInfectedArea
+		else if(infectedSpace[i][j]&&isBorder(i,j))
+			draw.DrawInfectedBorder(i, j);
+		else if(!infectedSpace[i][j]&&isBorder(i,j))
+			draw.DrawBorder(i, j);
 		else
 			draw.DisInfectArea(i, j);         // else call DisInfectArea
 		
