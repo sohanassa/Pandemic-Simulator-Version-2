@@ -203,6 +203,11 @@ public class Simulate {
 		}
 		for(int j=0; j<amountOfAreas; j++) {
 			grids[j].Drawgrid();
+			for(int i=0;i<grids[j].getHeight();i++) {
+				for(int k=0;k<grids[j].getWidth();k++) {
+					grids[j].DrawOne(i, k);
+				}
+			}
 		   for(int i=0; i<time; i++) { //for each minute of the simulation
 			   System.out.println("Minute: "+(i+1));
 			   runOneMinute(j,grids); //run one minute of it
