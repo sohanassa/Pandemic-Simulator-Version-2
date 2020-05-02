@@ -19,7 +19,7 @@ public class Grid {
 	private boolean[][] infectedSpace;         //an array that represents whether or not the space at a certain position is infected
 	private int[][] freeOfInfectedPeopleTime;  //an array that holds the time that a certain position has been free of an infected person
 	private int[][] timeStayedInSamePosition;  //an array that holds the time that an infected person has been in the same position for
-	private int[][] borderSpace;
+	private int[][] borderSpace;               //has the border areas
 	private static Random randomizer = new Random();
 	private DrawSimulation draw;  //an object type DrawSimulation
 
@@ -31,16 +31,20 @@ public class Grid {
 		this.infectedSpace = new boolean[height][width];   //initialise the size of infectedspace
 		this.freeOfInfectedPeopleTime=new int[height][width];  //initialise size of freeOfInfectedPeopleTime
 		this.timeStayedInSamePosition=new int[height][width];  //initialise size of timeStayedInSamePositio
-		this.borderSpace=new int[height][width];
+		this.borderSpace=new int[height][width];             //initialise size of .borderSpace
 		draw = new DrawSimulation(height,width);
 	}
 	
+	/**
+	 * This method counts how many people are in the grid.
+	 * @return integer, the amount of humasn in the space 
+	 */
 	private int countPeople() {
 		int cnt=0;
-		for(int i=0; i<height; i++)
+		for(int i=0; i<height; i++) //going through the array
 			for(int j=0; j<width; j++)
-				if(human[i][j]!=null)
-					cnt++;
+				if(human[i][j]!=null)   //if there is a human in the position
+					cnt++;             //increase the counter
 		return cnt;
 	}
 	
@@ -60,36 +64,64 @@ public class Grid {
 		draw.DrawGrid();
 	}
 	
+	/**
+	 * This method takes a position and sets it as the destination of the border in that position.
+	 * @param i represents the column
+	 * @param j represents the row
+	 * @param destination  represents the destination the border leads to
+	 * @return returns true
+	 */
 	public boolean setAsBorder(int i, int j, int destination) {
 		// need to add checking method
 		borderSpace[i][j]=destination;
 		return true;
 		
 	}
+	/**
+	 * This method checks in the area is a border.
+	 * @param i  represents the column
+	 * @param j  represents the row
+	 * @return boolean, true if it is a border,false if not.
+	 */
 	public boolean isBorder(int i, int j) {
 		if(borderSpace[i][j]!=0)
 		   return true;
 		return false;
 	}
 	
+	/**
+	 * This method returns the borderspace in given position.
+	 * @param i represents the column
+	 * @param j represents the row
+	 * @return returns the borderspace in given position
+	 */
 	public int getBorderWith(int i, int j) {
 		return borderSpace[i][j];
 	}
 	
+	/**
+	 * Checks if the grid is full.
+	 * @return true,if the grid is full, false if not.
+	 */
 	private boolean isFull() {
 		return countPeople()>=height*width;
 	}
 	
+	/**
+	 * This method puts a new human in the grid.
+	 * @param h the human that will be added.
+	 * @return returns true if the human was added, else false.
+	 */
 	public boolean newHuman(Human h) {
-		while(!isFull()) {
-		   int x=randomizer.nextInt(height);
+		while(!isFull()) {                        //while the grid isnt full
+		   int x=randomizer.nextInt(height);      //get a random position
 		   int y=randomizer.nextInt(width);
-		   if(getHumanAt(x,y)==null) {
-			   setHuman(h,x,y);
-			   return true;
+		   if(getHumanAt(x,y)==null) {            //if that position is null then add the human
+			   setHuman(h,x,y);                          //by calling sethuman
+			    return true;                             //and return true,else get a new position
 		   }
 		}
-		return false;
+		return false; //if the sapce is full then return false
 		
 	}
 	
@@ -189,11 +221,11 @@ public class Grid {
 				  xp++;
 				  yp++;
 			  }
-			  if(isBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) {
+			  if(isBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) { //if the current position of the human is a border an the new one is outside of the grid
 				  Human temp = human[i][j];
-				  human[i][j]=null;
-				  DrawOne(i,j);
-				  return temp;
+				  human[i][j]=null;  //then set that position as null
+				  DrawOne(i,j);      //call drawOne
+				  return temp;      //and return the human
 			  }
 			 if(xp>=0 && xp<height && yp>=0 && yp<width && human[xp][yp]==null) {//if the human can move to the new position
 				
@@ -205,7 +237,7 @@ public class Grid {
 		}
 		else //else if the human is surrounded 
 			StayedInSamePosition(i,j); //then call the method StayedInSamePosition
-		return null;
+		return null;   //return null if we we arent moving a human to another grid
 		}
 	
 /**
@@ -326,12 +358,12 @@ private boolean CheckIfSurrounded(int i,int j) {
 	 * @param j represents the column
 	 */
 	public void DrawOne(int i, int j) {
-		if(infectedSpace[i][j]&&!isBorder(i,j))             //if the area is infected
+		if(infectedSpace[i][j]&&!isBorder(i,j))             //if the area is infected and is not a border
 			draw.DrawInfectedArea(i, j);      //call DrawInfectedArea
-		else if(infectedSpace[i][j]&&isBorder(i,j))
-			draw.DrawInfectedBorder(i, j);
-		else if(!infectedSpace[i][j]&&isBorder(i,j))
-			draw.DrawBorder(i, j);
+		else if(infectedSpace[i][j]&&isBorder(i,j))           //if the area is infected and  not a border
+			draw.DrawInfectedBorder(i, j);               //call drawInfectedBorder
+		else if(!infectedSpace[i][j]&&isBorder(i,j))     //if it is a border but not infected
+			draw.DrawBorder(i, j);                      //call DrawBorder
 		else
 			draw.DisInfectArea(i, j);         // else call DisInfectArea
 		
