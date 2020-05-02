@@ -63,10 +63,10 @@ public class Simulate {
 			do {
 				try {
 					flag=false;
-					System.out.println("Give the position of  border ("+(i+1)+")"); //give the coordinates of the position
-					System.out.print("Give x coordinate: ");
+					System.out.println("\nCoordinates of border ("+(i+1)+") >>"); //give the coordinates of the position
+					System.out.print("\t\t\t   Give x coordinate: ");
 					 x=in.nextInt();
-					 System.out.print("Give y coordinate: ");
+					 System.out.print("\t\t\t   Give y coordinate: ");
 					 y=in.nextInt();
 					if(x!=0 && x!=g.getHeight()-1 && y!=0 && y!=g.getWidth()-1)
 						throw new Exception("This position can not ba a border"); //throw exception if that position can not be a border
@@ -167,20 +167,21 @@ public class Simulate {
 			do {
 				try {
 					error=false;
-					System.out.print("\nGive the height of area ("+(k+1)+") :");  //give the height of the grid
+					System.out.println("\nSize of ("+(k+1)+") area >>");
+					System.out.print("\t\t   Give the height of area ("+(k+1)+") :");  //give the height of the grid
 					height=in.nextInt();
-					System.out.print("\nGive the width of area ("+(k+1)+") :");  //give the width of the grid
+					System.out.print("\t\t   Give the width of area ("+(k+1)+") :");  //give the width of the grid
 					width=in.nextInt();
 					 if(height<0||width<0)
 						 throw new Exception("Width and Heigth must be positive numbers"); //throw exception if input was wrong
 					 
-					 System.out.print("Give the population: ");   //give the population
+					 System.out.print("\nGive the population: ");   //give the population
 					 pop=in.nextInt();
 					 if(pop>width*height||pop<0)
 					  throw new Exception("Population must be a positive number and must be smaller than the area");
 					 //throw exception if input was wrong
 					 
-					 System.out.print("Give the number of borders: "); //give the numbers of borders that the grid has
+					 System.out.print("\nGive the number of borders: "); //give the numbers of borders that the grid has
 					 numOfBorders=in.nextInt();
 					 if(numOfBorders<0||numOfBorders>width*height)
 					    throw new Exception("Number of borders must be a positive number, and it must be smaller than the area"); //throw exception if input is wrong

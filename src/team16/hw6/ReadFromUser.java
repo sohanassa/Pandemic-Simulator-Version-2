@@ -13,18 +13,18 @@ public class ReadFromUser {
 
 	public static void main(String[] args) {
 		System.out.println("COVID-19 SIMULATOR!\n");
-	       System.out.println("*StdDraw Disclaimer*\n1)Green Circle <- Healthy Person\n2)Orange Circle <- Sick Person\n3)Red Square <- Infected Area\n");
+	       System.out.println("*StdDraw Disclaimer*\n1)Green Circle <- Healthy Person\n2)Orange Circle <- Sick Person\n3)Red Square <- Infected Area\n4)Purple Space <- Infected Border\n5)Grey Space <- Border");
 		Scanner in = new Scanner(System.in);
 		String choice="";
 		boolean flag=false;
 		Simulate s;
 		int amountOfAreas=0;
-		System.out.print("Give number of areas: ");
+		System.out.print("\nGive number of areas: ");
 		   amountOfAreas=in.nextInt();
 		do {
 			try {
 				flag=false;
-				System.out.print("Would you like a manual simulator? (Yes/No): ");
+				System.out.print("\nWould you like a manual simulator? (Yes/No): ");
 				choice=in.next();
 				if(!choice.equalsIgnoreCase("Yes")&&!choice.equalsIgnoreCase("No"))
 					throw new Exception("Must give Yes or No answer");
