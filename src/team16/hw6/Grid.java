@@ -32,13 +32,20 @@ public class Grid {
 		this.freeOfInfectedPeopleTime=new int[height][width];  //initialise size of freeOfInfectedPeopleTime
 		this.timeStayedInSamePosition=new int[height][width];  //initialise size of timeStayedInSamePositio
 		this.borderSpace=new int[height][width];
-		draw = new DrawSimulation(height,width);  
-		draw.DrawGrid();                                       //print the grid by callin the method DrawGrid in the class DrawSimulation
+		draw = new DrawSimulation(height,width);
+	}
+	
+	private int countPeople() {
+		int cnt=0;
+		for(int i=0; i<height; i++)
+			for(int j=0; j<width; j++)
+				if(human[i][j]!=null)
+					cnt++;
+		return cnt;
 	}
 	
 	public void setHuman(Human hum, int i, int j) {    //this method takes as parameters a Human and two integers
 		human[i][j]=hum;  //this sets the position i,j of the array human, equal to the given one
-		System.out.println("human set");
 	}
 	
 	public int getHeight() {
@@ -47,6 +54,10 @@ public class Grid {
 	
 	public int getWidth() {
 		return width;
+	}
+	
+	public void Drawgrid() {
+		draw.DrawGrid();
 	}
 	
 	public boolean setAsBorder(int i, int j, int destination) {
@@ -65,19 +76,20 @@ public class Grid {
 		return borderSpace[i][j];
 	}
 	
-	public void newHuman(Human h) {
-		boolean empty=false;
-		
-		while(!empty) {
-		int x=randomizer.nextInt(height);
-		int y=randomizer.nextInt(width);
-		if(getHumanAt(x,y)!=null) {
-			setHuman(h,x,y);
-			empty=true;
-			System.out.println("human found pos");
-			//DrawOne(x,y);
+	private boolean isFull() {
+		return countPeople()>=height*width;
+	}
+	
+	public boolean newHuman(Human h) {
+		while(!isFull()) {
+		   int x=randomizer.nextInt(height);
+		   int y=randomizer.nextInt(width);
+		   if(getHumanAt(x,y)==null) {
+			   setHuman(h,x,y);
+			   return true;
+		   }
 		}
-		}
+		return false;
 		
 	}
 	

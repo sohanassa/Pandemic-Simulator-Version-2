@@ -66,7 +66,7 @@ public class Simulate {
 					System.out.print("Give the position of the border (x, y): ");
 					 x=in.nextInt();
 					 y=in.nextInt();
-					if(y!=0&&y!=g.getHeight()-1&&x!=0&&x!=g.getWidth()-1)
+					if(x!=0 && x!=g.getHeight()-1 && y!=0 && y!=g.getWidth()-1)
 						throw new Exception("This position can not ba a border");
 					
 					System.out.print("Where does this border lead?, (1-> for first area, 2-> for second area..): ");
@@ -160,12 +160,11 @@ public class Simulate {
 		Grid[] grids =new Grid[amountOfAreas];
 		int pop=0,width=0 ,height=0,numOfBorders=0;
 		for(int k=0; k<amountOfAreas; k++) {
-			// need to add system.out
 			boolean error=false;
 			do {
 				try {
 					error=false;
-					System.out.print("Give the height and width of area ("+(k+1)+") :");
+					System.out.print("\nGive the height and width of area ("+(k+1)+") :");
 					    height=in.nextInt();
 					    width=in.nextInt();
 					 if(height<0||width<0)
@@ -199,10 +198,12 @@ public class Simulate {
 			readBorder(grids[k], numOfBorders);
 		}
 		for(int j=0; j<amountOfAreas; j++) {
+			grids[j].Drawgrid();
 		   for(int i=0; i<time; i++) { //for each minute of the simulation
 			   System.out.println("Minute: "+(i+1));
 			   runOneMinute(j,grids); //run one minute of it
 			}
+		   System.out.println("\n");
 		}
 		System.out.println("The number of people who got infected is: "+ cnt);
 		
@@ -218,12 +219,10 @@ public class Simulate {
 		Grid g=grids[area_num];
 		g.infectSpaces(timeForSquareToGetInfected); //infect all spaces that need to be
 		Human traveler=null;
-		int cnt2=0;
 		for(int i=0;i<g.getHeight();i++) {                                  //going through  all the spaces in the array
 			for(int j=0;j<g.getWidth();j++) {
 				
 			if(g.getHumanAt(i, j)!=null) {    
-				cnt2++;
 				if(g.getHumanAt(i,j).getClass()==Healthy.class) {    //if the human is healthy
 					Healthy healthyPer = (Healthy) g.getHumanAt(i, j);
 					if(!healthyPer.getImmune() && g.CheckForInfected(i, j)) { //and it is not immune and has gotten infected be other human
@@ -242,9 +241,10 @@ public class Simulate {
 					//int bordering = g.getBorderWith(i, j);
 					traveler=g.move(i,j);
 					if(traveler!=null) {  //an pume if(move) then check which on it border and then call the method to add a new human 
-						grids[g.getBorderWith(i, j)-1].newHuman(traveler);
-						System.out.println("Person moved from area "+(area_num+1)+" to area "+g.getBorderWith(i, j));
-						cnt2--;
+						if(grids[g.getBorderWith(i, j)-1].newHuman(traveler)==true)
+						   System.out.println("\tPerson moved from area "+(area_num+1)+" to area "+g.getBorderWith(i, j));
+						else
+							g.setHuman(traveler, i, j);
 					}
 				}
 			    else
@@ -253,7 +253,6 @@ public class Simulate {
 			}// null check 
 			}//loop2
     	}//loop1
-		System.out.println(cnt2+" humans are still present");
 		g.AddFreeOfInfectedPeopleTime();                         //counts time that space been empty of infected people
 		g.AllArrayHasBeenFreeOfInfected(timeForSpaceToBeSafe);  //makes all infected spaces that have been clear of infected people for some time as safeA
 	}//method

@@ -23,7 +23,7 @@ public class DrawSimulation {
 	 * This method draws the grid 
 	 */
 	public void DrawGrid() {
-		
+		StdDraw.clear(StdDraw.WHITE);
 	    StdDraw.setXscale(-1,length+1);  //setting the scale                             
         StdDraw.setYscale(-1,width+1);
         StdDraw.setPenColor(StdDraw.BLACK); //setting the colour black
