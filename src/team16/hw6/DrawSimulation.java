@@ -63,10 +63,20 @@ public void DrawInfectedArea(int i, int j){
 	StdDraw.filledRectangle(i+0.5, j+0.5, 0.4, 0.4); 
 	
 }
+/**
+ *  This method Draws Border areas gray
+ * @param i represents the row
+ * @param j represents the column
+ */
 public void DrawBorder(int i,int j) {
 	StdDraw.setPenColor(StdDraw.DARK_GRAY);
 	StdDraw.filledRectangle(i+0.5, j+0.5, 0.4, 0.4); 
 }
+/**
+ *  This method Draws Infected Border areas magenta
+ * @param i represents the row
+ * @param j represents the column
+ */
 public void DrawInfectedBorder(int i, int j) {
 	StdDraw.setPenColor(StdDraw.MAGENTA);
 	StdDraw.filledRectangle(i+0.5, j+0.5, 0.4, 0.4); 
