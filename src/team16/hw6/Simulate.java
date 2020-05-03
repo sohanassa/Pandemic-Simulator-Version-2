@@ -209,10 +209,10 @@ public class Simulate {
 			//grids[j].Drawgrid();                                          //draws the grid
 			int t=0;
 		   for(int i=0; i<time; i++) {                                     //for each minute of the simulation
-			   if(t>=amountOfAreas)
-				   t=0;
-			   grids[t].setDrawFlag(true);
-			   grids[t].drawGrid();
+			   if(t>=amountOfAreas)                                        //if t is larger than the amount of areas 
+				   t=0;                                                    //reset the value to zero
+			   grids[t].setDrawFlag(true);                                 //set flag as true for that grid so it can visually represent the grid
+			   grids[t].drawGrid();                                        //draw the grid
 			   grids[t].drawAll();
 			   
 			  for(int k=0; k<5; k++) {
@@ -222,8 +222,8 @@ public class Simulate {
 			     }
 			     i++;
 			  }
-			  grids[t].setDrawFlag(false);
-			  t++;
+			  grids[t].setDrawFlag(false);                                //set the flag as false so it does not visual represent this specific grid again 
+			  t++;                                                        //increase t to move on to next grid
 		   }
 		   System.out.println("\n");
 		
@@ -261,9 +261,9 @@ public class Simulate {
 				}
 				if(randomizer.nextDouble()<movingP) {                        //Possibility of moving the humans
 					traveler=g.move(i,j);                                    //returns a human who have left the area or returns null if no one left
-					if(traveler!=null) {                                     //if its a human 
-						if(grids[g.getBorderWith(i, j)-1].newHuman(traveler)==true)    //if new human can be set there 
-						   System.out.println("\tPerson moved from area "+(area_num+1)+" to area "+g.getBorderWith(i, j));
+					if(traveler!=null) {                                     //if it returns a human 
+						if(grids[g.getBorderWith(i, j)-1].newHuman(traveler)==true)    // and if new human can be set there (then the new human will be set through the method newHuman) 
+						   System.out.println("\tPerson moved from area "+(area_num+1)+" to area "+g.getBorderWith(i, j));//print where the human moved to
 						else
 							g.setHuman(traveler, i, j);                      // human put back in his previous position because the area is full
 					}

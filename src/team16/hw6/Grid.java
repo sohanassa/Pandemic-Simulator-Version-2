@@ -81,6 +81,9 @@ public class Grid {
 		draw.DrawGrid();
 	}
 	
+	/**
+	 * This method draws the whole grid.
+	 */
 	public void drawAll() {
 		for(int x=0; x < getHeight(); x++) {
 			for(int y=0; y < getWidth(); y++) {
@@ -89,6 +92,10 @@ public class Grid {
 		}
 	}
 	
+	/**
+	 * This method sets the variable drawFlag as either true, or false.
+	 * @param f the value of drawFlag
+	 */
 	public void setDrawFlag(boolean f) {
 		drawFlag=f;
 	}
@@ -221,7 +228,7 @@ public class Grid {
 		int yp=j;
 		if(isBorder(i,j)||!CheckIfSurrounded(i,j)) {   //first we must check that the human is not surrounded and can in fact move
 		while(!move) { 
-			System.out.println("stuck in move while");
+			//System.out.println("stuck in move while");
 			xp=i;                                      //set new positions equal to current 
 			yp=j;
 			  r=(double) Math.random()*2.0;            // get a random number using Math.random                                  
@@ -387,7 +394,7 @@ private boolean CheckIfSurrounded(int i,int j) {
 	 * @param j represents the column
 	 */
 	public void DrawOne(int i, int j, boolean waitFlag) {
-		if(!drawFlag)
+		if(!drawFlag)                                         //if drawFlag is is false then it should not show draw the latest movement.
 			return;
 		if(infectedSpace[i][j]&&!isBorder(i,j))                //if the area is infected and is not a border
 			draw.DrawInfectedArea(i, j);                       //call DrawInfectedArea
