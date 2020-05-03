@@ -47,7 +47,9 @@ public class DrawSimulation {
  * @param y represents the column
  * @param c colour of the human
  */
-public void DrawHuman(int x, int y, Color c) {
+public void DrawHuman(int x, int y, Color c, boolean waitFlag) {
+	if(waitFlag)
+	   StdDraw.show(0);
 	StdDraw.setPenColor(c); //set the pen to given colour
 	StdDraw.filledCircle(x+0.5, y+0.5, 0.4); // draw circle in give position
 }

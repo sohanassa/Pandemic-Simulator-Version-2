@@ -79,10 +79,12 @@ public class Simulate {
 				catch(InputMismatchException e) {   //catch exceptions
 					flag=true;
 					System.out.println(e.getMessage());
+					in.nextLine();
 				}
 				catch(Exception e) {
 					flag=true;
 					System.out.println(e.getMessage());
+					in.nextLine();
 				}
 				
 				
@@ -203,22 +205,31 @@ public class Simulate {
 			grids[k] = new Grid(h);                                       //makes object grid
 			readBorder(grids[k], numOfBorders);                           //reads the borders of the area
 		}
-		for(int j=0; j<amountOfAreas; j++) {                              //for each area
-			grids[j].Drawgrid();                                          //draws the grid
-			for(int i=0;i<grids[j].getHeight();i++) {
-				for(int k=0;k<grids[j].getWidth();k++) {
-					grids[j].DrawOne(i, k);                               //draws the initial state of the grid
-				}
-			}
-		   for(int i=0; i<time; i++) {                                    //for each minute of the simulation
-			   System.out.println("Minute: "+(i+1));
-			   runOneMinute(j,grids);                                     //run one minute of it
-			}
+		//for(int j=0; j<amountOfAreas; j++) {                              //for each area
+			//grids[j].Drawgrid();                                          //draws the grid
+			int t=0;
+		   for(int i=0; i<time; i++) {                                     //for each minute of the simulation
+			   if(t>=amountOfAreas)
+				   t=0;
+			   grids[t].setDrawFlag(true);
+			   grids[t].drawGrid();
+			   grids[t].drawAll();
+			   
+			  for(int k=0; k<5; k++) {
+				 System.out.println("Minute: "+(i+1));
+			     for(int j=0; j<amountOfAreas; j++) {
+			        runOneMinute(j,grids);                                     //run one minute of it
+			     }
+			     i++;
+			  }
+			  grids[t].setDrawFlag(false);
+			  t++;
+		   }
 		   System.out.println("\n");
-		}
-		System.out.println("The number of people who got infected is: "+ cnt);
 		
+		System.out.println("The number of people who got infected is: "+ cnt);
 	}
+	
 	
 	/**
 	 * This method runs one minute of the simulation.
@@ -238,13 +249,13 @@ public class Simulate {
 					Healthy healthyPer = (Healthy) g.getHumanAt(i, j);
 					if(!healthyPer.getImmune() && g.CheckForInfected(i, j)) { //and it is not immune and has gotten infected be other human
 						g.setHuman(makeSick(g.getHumanAt(i, j)), i, j);       //make sick
-						System.out.println("\tA person was infected in position ("+i+","+j+") by another person!");
+						System.out.println("\tA person was infected in position ("+i+","+j+") by another person in area ("+(area_num+1)+")!");
 						cnt++;                                                // counts how many people got infected
 					}
 					
 					if(!healthyPer.getImmune() && g.CheckForInfectedSpace(i, j, spaceHumanP)) {   //else if it got infected by space
 						g.setHuman(makeSick(g.getHumanAt(i, j)), i, j);      //make sick
-						System.out.println("\tA person was infected in position ("+i+","+j+") by the space around him/her!");
+						System.out.println("\tA person was infected in position ("+i+","+j+") by the space around him/her in area ("+(area_num+1)+")!");
 						cnt++;                                               // counts how many people got infected
 					}
 				}

@@ -22,6 +22,7 @@ public class Grid {
 	private int[][] borderSpace;                    //has the border areas
 	private static Random randomizer = new Random();
 	private DrawSimulation draw;                    //an object type DrawSimulation
+	private boolean drawFlag;
 
 	
 	public Grid(Human[][] h) {                                 //constuctor receives a 2D array type Human
@@ -33,6 +34,7 @@ public class Grid {
 		this.timeStayedInSamePosition=new int[height][width];  //initialise size of timeStayedInSamePositio
 		this.borderSpace=new int[height][width];               //initialise size of .borderSpace
 		draw = new DrawSimulation(height,width);
+		drawFlag=false;
 	}
 	
 	/**
@@ -56,6 +58,7 @@ public class Grid {
 	 */
 	public void setHuman(Human hum, int i, int j) {
 		human[i][j]=hum;  //sets the human
+		DrawOne(i,j,false);
 	}
 	/**
 	 * Getter for height.
@@ -74,8 +77,20 @@ public class Grid {
 	/**
 	 * This method draws the grid of the area.
 	 */
-	public void Drawgrid() {
+	public void drawGrid() {
 		draw.DrawGrid();
+	}
+	
+	public void drawAll() {
+		for(int x=0; x < getHeight(); x++) {
+			for(int y=0; y < getWidth(); y++) {
+				DrawOne(x, y, false);                               //draws the initial state of the grid
+			}
+		}
+	}
+	
+	public void setDrawFlag(boolean f) {
+		drawFlag=f;
 	}
 	
 	/**
@@ -130,9 +145,10 @@ public class Grid {
 		   int x=randomizer.nextInt(height);      //get a random position
 		   int y=randomizer.nextInt(width);
 		   if(getHumanAt(x,y)==null) {            //if that position is null then add the human
-			   setHuman(h,x,y);                          //by calling sethuman
-			    return true;                             //and return true,else get a new position
+			   setHuman(h,x,y);                   //by calling sethuman
+			   return true;                             //and return true,else get a new position
 		   }
+		   System.out.println("Stuck in newHuman");
 		}
 		return false; //if the sapce is full then return false
 		
@@ -168,9 +184,10 @@ public class Grid {
 				if(human[i][j]!=null && (human[i][j].getClass()==Sick.class)) { //if the human in that position is Sick
 					//using randomizer,if the possibility is higher then the random number, and the time stayed in same spot is equal or larger than timeNeeded
 					Sick sik = (Sick) human[i][j];  //downcasting
-					if(sik.getPossibilityOfInfectingSpace()>randomizer.nextDouble() && timeStayedInSamePosition[i][j]>timeNeeded  )
-					 infectedSpace[i][j]=true; //then infect the space
-					 DrawOne(i,j);             //call method DrawOne to visually represent the infected area on our canvas
+					if(sik.getPossibilityOfInfectingSpace()>randomizer.nextDouble() && timeStayedInSamePosition[i][j]>timeNeeded  ) {
+					    infectedSpace[i][j]=true; //then infect the space
+					    DrawOne(i,j,false);             //call method DrawOne to visually represent the infected area on our canvas
+					}
 				}
 	}
 	
@@ -188,8 +205,8 @@ public class Grid {
 			freeOfInfectedPeopleTime[Idest][Jdest]=0;     //set the value of the array freeOfInfectedPeopleTime eqaul to zero for the new position
 		}
 		timeStayedInSamePosition[Idest][Jdest]=0; // as well as the value of timeStayedInSamePosition
-		DrawOne(Idest, Jdest);    //call method DrawOne for both positions to represent them on our canvas 
-		DrawOne(Istart, Jstart);	
+		DrawOne(Idest, Jdest, true);    //call method DrawOne for both positions to represent them on our canvas 
+		DrawOne(Istart, Jstart, true);	
 	}
 	
 	/**
@@ -203,7 +220,8 @@ public class Grid {
 		int xp=i;  
 		int yp=j;
 		if(isBorder(i,j)||!CheckIfSurrounded(i,j)) {   //first we must check that the human is not surrounded and can in fact move
-		while(!move) {                       
+		while(!move) { 
+			System.out.println("stuck in move while");
 			xp=i;                                      //set new positions equal to current 
 			yp=j;
 			  r=(double) Math.random()*2.0;            // get a random number using Math.random                                  
@@ -234,7 +252,7 @@ public class Grid {
 			  if(isBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) { //if the current position of the human is a border and the new one is outside of the grid
 				  Human temp = human[i][j];
 				  human[i][j]=null;                                    //then set that position as null
-				  DrawOne(i,j);                                        //draws the new state of the square
+				  DrawOne(i,j,false);                                        //draws the new state of the square
 				  return temp;                                         //returns the human who has left
 			  }
 			 if(xp>=0 && xp<height && yp>=0 && yp<width && human[xp][yp]==null) {   //if the human can move to the new position
@@ -332,9 +350,9 @@ private boolean CheckIfSurrounded(int i,int j) {
 	public void AllArrayHasBeenFreeOfInfected(int timeForSquareToBeSafe) {
 		for(int i=0; i<height; i++) //for every position
 			for(int j=0; j<width; j++) {
-				if(hasBeenFreeOfInfected(timeForSquareToBeSafe,i,j)) { //call the method hasBeenFreeOfInfected
+				if(infectedSpace[i][j] && hasBeenFreeOfInfected(timeForSquareToBeSafe,i,j)) { //call the method hasBeenFreeOfInfected
 					infectedSpace[i][j]=false;   //if it returns true then set infectedSpace in that area equal to false 
-					DrawOne(i, j);              // call DrawOne to represent it on our canvas
+					DrawOne(i, j, false);              // call DrawOne to represent it on our canvas
 				}
 			}
 	}
@@ -368,7 +386,9 @@ private boolean CheckIfSurrounded(int i,int j) {
 	 * @param i represents the row 
 	 * @param j represents the column
 	 */
-	public void DrawOne(int i, int j) {
+	public void DrawOne(int i, int j, boolean waitFlag) {
+		if(!drawFlag)
+			return;
 		if(infectedSpace[i][j]&&!isBorder(i,j))                //if the area is infected and is not a border
 			draw.DrawInfectedArea(i, j);                       //call DrawInfectedArea
 		else if(infectedSpace[i][j]&&isBorder(i,j))            //if the area is infected and  not a border
@@ -382,7 +402,7 @@ private boolean CheckIfSurrounded(int i,int j) {
 		    Color c = StdDraw.GREEN;      
 		    if(human[i][j].getClass()==Sick.class)             // if the human is sick change pen colour
 			   c=StdDraw.ORANGE;
-			draw.DrawHuman(i, j, c);                           //call DrawHuman
+			draw.DrawHuman(i, j, c, waitFlag);                           //call DrawHuman
 	    }
 	}
 }
