@@ -49,7 +49,7 @@ public class DrawSimulation {
  */
 public void DrawHuman(int x, int y, Color c, boolean waitFlag) {
 	if(waitFlag)
-	   StdDraw.show(0);
+	   StdDraw.show(150);
 	StdDraw.setPenColor(c); //set the pen to given colour
 	StdDraw.filledCircle(x+0.5, y+0.5, 0.4); // draw circle in give position
 }

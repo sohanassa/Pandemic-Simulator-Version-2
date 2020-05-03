@@ -68,7 +68,7 @@ public class Simulate {
 					 x=in.nextInt();
 					 System.out.print("\t\t\t   Give y coordinate: ");
 					 y=in.nextInt();
-					if(x!=0 && x!=g.getHeight()-1 && y!=0 && y!=g.getWidth()-1)
+					if(x!=0 && x!=g.getHeight()-1 || y!=0 && y!=g.getWidth()-1)
 						throw new Exception("This position can not ba a border"); //throw exception if that position can not be a border
 					
 					System.out.print("\nWhere does this border lead?, (1-> for first area, 2-> for second area..): ");
@@ -205,8 +205,6 @@ public class Simulate {
 			grids[k] = new Grid(h);                                       //makes object grid
 			readBorder(grids[k], numOfBorders);                           //reads the borders of the area
 		}
-		//for(int j=0; j<amountOfAreas; j++) {                              //for each area
-			//grids[j].Drawgrid();                                          //draws the grid
 			int t=0;
 		   for(int i=0; i<time; i++) {                                     //for each minute of the simulation
 			   if(t>=amountOfAreas)                                        //if t is larger than the amount of areas 
@@ -215,7 +213,7 @@ public class Simulate {
 			   grids[t].drawGrid();                                        //draw the grid
 			   grids[t].drawAll();
 			   
-			  for(int k=0; k<5; k++) {
+			  for(int k=0; k<5 && i<time; k++) {
 				 System.out.println("Minute: "+(i+1));
 			     for(int j=0; j<amountOfAreas; j++) {
 			        runOneMinute(j,grids);                                     //run one minute of it
@@ -225,7 +223,6 @@ public class Simulate {
 			  grids[t].setDrawFlag(false);                                //set the flag as false so it does not visual represent this specific grid again 
 			  t++;                                                        //increase t to move on to next grid
 		   }
-		   System.out.println("\n");
 		
 		System.out.println("The number of people who got infected is: "+ cnt);
 	}
@@ -240,11 +237,12 @@ public class Simulate {
 	private void runOneMinute(int area_num, Grid[] grids) {
 		Grid g=grids[area_num];                                              // g is the grid of the area that is going to be simulated
 		g.infectSpaces(timeForSquareToGetInfected);                          //infect all spaces that need to be
+		g.noOneMoved();
 		Human traveler=null;                                                 // traveler is a human who will change areas
 		for(int i=0;i<g.getHeight();i++) {                                   //going through  all the spaces in the array
 			for(int j=0;j<g.getWidth();j++) {
 				
-			if(g.getHumanAt(i, j)!=null) {    
+			if(g.getHumanAt(i, j)!=null && !g.getHasMoved(i, j)) {    
 				if(g.getHumanAt(i,j).getClass()==Healthy.class) {            //if the human is healthy
 					Healthy healthyPer = (Healthy) g.getHumanAt(i, j);
 					if(!healthyPer.getImmune() && g.CheckForInfected(i, j)) { //and it is not immune and has gotten infected be other human
