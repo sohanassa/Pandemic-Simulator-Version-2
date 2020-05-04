@@ -50,10 +50,10 @@ public class Simulate {
 	}
 	
 	/**
-	 * This method read the border areas of  grid.
+	 * This method read the border squares for of grid.
 	 * 
 	 * @param g the grid
-	 * @param n the amount of borders
+	 * @param n the number of borders
 	 */
 	public void readBorder(Grid g, int n) {
 		int x=0,y=0;
@@ -68,7 +68,7 @@ public class Simulate {
 					 x=in.nextInt();
 					 System.out.print("\t\t\t   Give y coordinate: ");
 					 y=in.nextInt();
-					if(x!=0 && x!=g.getHeight()-1 || y!=0 && y!=g.getWidth()-1)
+					if(x!=0 && x!=g.getHeight()-1 && y!=0 && y!=g.getWidth()-1)
 						throw new Exception("This position can not ba a border"); //throw exception if that position can not be a border
 					
 					System.out.print("\nWhere does this border lead?, (1-> for first area, 2-> for second area..): ");

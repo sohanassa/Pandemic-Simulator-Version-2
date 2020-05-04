@@ -23,7 +23,7 @@ public class DrawSimulation {
 	 * This method draws the grid 
 	 */
 	public void DrawGrid() {
-		StdDraw.clear(StdDraw.WHITE);
+		StdDraw.clear(StdDraw.WHITE);   // clears the grid
 	    StdDraw.setXscale(-1,length+1);  //setting the scale                             
         StdDraw.setYscale(-1,width+1);
         StdDraw.setPenColor(StdDraw.BLACK); //setting the colour black
@@ -49,7 +49,7 @@ public class DrawSimulation {
  */
 public void DrawHuman(int x, int y, Color c, boolean waitFlag) {
 	if(waitFlag)
-	   StdDraw.show(150);
+	   StdDraw.show(150);   // waits
 	StdDraw.setPenColor(c); //set the pen to given colour
 	StdDraw.filledCircle(x+0.5, y+0.5, 0.4); // draw circle in give position
 }
