@@ -218,6 +218,7 @@ public class Simulate {
 				}
 				
 			}while(error);
+			
 		
 			Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width); //makes the 2d array
 			grids[k] = new Grid(h); //makes object grid
