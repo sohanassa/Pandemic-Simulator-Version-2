@@ -230,6 +230,7 @@ public class Simulate {
 						throw new Exception("Each borders must be both ways");
 						
 				}
+				
 				catch(Exception e) {
 					error=true;
 					System.out.print(e.getMessage());
