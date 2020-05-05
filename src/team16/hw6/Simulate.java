@@ -48,14 +48,30 @@ public class Simulate {
 	public Simulate(int amountOfAreas) {
 		this(20,10,0.7,0.6,0.4,0.6,8,60,3,20,amountOfAreas);
 	}
+	public boolean checkIfBothWays(Grid []g,int k) {
+		for(int i=0;i<k;i++) {//for all the girds before grid k 
+			 if(checkBorders(g[i],k)&&(checkBorders(g[k],i)))  //check if grid i borders with grid k and if grid k borders with grid i
+					 return true; // return true if they do
+		}
+			 return false;
+							 
+				 
+	}
+	public boolean checkBorders(Grid g,int k) { //checks is grid g boards with grid k
 	
+		for(int i=0;i<g.getWidth();i++)           //going through the array grid
+			for(int j=0;j<g.getHeight();j++)
+				if(g.getBorderWith(i, j)==k)      //if grid g borders with k return true
+					return true;
+		return false;
+	}
 	/**
 	 * This method read the border areas of  grid.
 	 * 
 	 * @param g the grid
 	 * @param n the amount of borders
 	 */
-	public void readBorder(Grid g, int n) {
+	public void readBorder(Grid g, int n,Grid []grids,int k) {
 		int x=0,y=0;
 		int dest=0;
 		for(int i=0; i<n; i++) {  //for each border
@@ -76,6 +92,7 @@ public class Simulate {
 					if(dest<=0 || dest>amountOfAreas)
 						throw new Exception("Destination must be bigger >1 or <= than number of areas!"); //throw exception if the input was wrong
 				}
+				
 				catch(InputMismatchException e) {   //catch exceptions
 					flag=true;
 					System.out.println(e.getMessage());
@@ -91,6 +108,7 @@ public class Simulate {
 			}while(flag);
 			g.setAsBorder(x, y, dest);   // sets the coordinates and destination of border in the grid 
 		}
+		
 	}
 	
 	
@@ -202,8 +220,21 @@ public class Simulate {
 			}while(error);
 		
 			Human[][] h=make2DHuman(makeHumans(pop), pop, height ,width); //makes the 2d array
-			grids[k] = new Grid(h);                                       //makes object grid
-			readBorder(grids[k], numOfBorders);                           //reads the borders of the area
+			grids[k] = new Grid(h); //makes object grid
+			do {
+				try {
+					error=false;
+					readBorder(grids[k], numOfBorders,grids,k); //reads the borders of the area
+					if(!checkIfBothWays(grids,k))
+						throw new Exception("Each borders must be both ways");
+						
+				}
+				catch(Exception e) {
+					error=true;
+					System.out.print(e.getMessage());
+				}
+			
+			}while(error);
 		}
 		//for(int j=0; j<amountOfAreas; j++) {                              //for each area
 			//grids[j].Drawgrid();                                          //draws the grid
