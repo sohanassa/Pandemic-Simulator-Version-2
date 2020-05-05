@@ -20,6 +20,7 @@ public class Grid {
 	private int[][] freeOfInfectedPeopleTime;       //an array that holds the time that a certain position has been free of an infected person
 	private int[][] timeStayedInSamePosition;       //an array that holds the time that an infected person has been in the same position for
 	private int[][] borderSpace;                    //has the border areas
+	private boolean[][] hasMoved;                   //an array used to show if a human has moved, so that he dosent home again
 	private static Random randomizer = new Random();
 	private DrawSimulation draw;                    //an object type DrawSimulation
 	private boolean drawFlag;
@@ -33,6 +34,7 @@ public class Grid {
 		this.freeOfInfectedPeopleTime=new int[height][width];  //initialise size of freeOfInfectedPeopleTime
 		this.timeStayedInSamePosition=new int[height][width];  //initialise size of timeStayedInSamePositio
 		this.borderSpace=new int[height][width];               //initialise size of .borderSpace
+		this.hasMoved=new boolean[height][width];              //initialise hasMoved to false
 		draw = new DrawSimulation(height,width);
 		drawFlag=false;
 	}
@@ -49,6 +51,7 @@ public class Grid {
 					cnt++;               //increase the counter
 		return cnt;
 	}
+	
 	/**
 	 * Setter for human in position i,j.
 	 * 
@@ -153,11 +156,10 @@ public class Grid {
 		   int y=randomizer.nextInt(width);
 		   if(getHumanAt(x,y)==null) {            //if that position is null then add the human
 			   setHuman(h,x,y);                   //by calling sethuman
-			   return true;                             //and return true,else get a new position
+			   return true;                       //and return true,else get a new position
 		   }
-		   System.out.println("Stuck in newHuman");
 		}
-		return false; //if the sapce is full then return false
+		return false;                             //if the sapce is full then return false
 		
 	}
 	
@@ -172,6 +174,17 @@ public class Grid {
 	}
 	
 	/**
+	 * Getter for hasMoved.
+	 * 
+	 * @param x position x
+	 * @param y position y
+	 * @return boolean, if the human has moved from his position
+	 */
+	public boolean getHasMoved(int x, int y) {
+		return  hasMoved[x][y];
+	}
+	
+	/**
 	 * This method returns the content of the array getInfectedSpaceAt at the given position.
 	 * @param i represents the row
 	 * @param j represents the column
@@ -179,6 +192,15 @@ public class Grid {
 	 */
 	public boolean getInfectedSpaceAt(int i, int j) {
 		return infectedSpace[i][j];
+	}
+	
+	/**
+	 * This method sets all humans to not moved.
+	 */
+	public void noOneMoved() {
+		for(int x=0; x < getHeight(); x++)
+			for(int y=0; y < getWidth(); y++)
+				hasMoved[x][y]=false;
 	}
 	
 	/**
@@ -214,6 +236,8 @@ public class Grid {
 		timeStayedInSamePosition[Idest][Jdest]=0; // as well as the value of timeStayedInSamePosition
 		DrawOne(Idest, Jdest, true);    //call method DrawOne for both positions to represent them on our canvas 
 		DrawOne(Istart, Jstart, true);	
+		hasMoved[Idest][Jdest]=true;    //human in next position has moved
+
 	}
 	
 	/**
@@ -227,10 +251,10 @@ public class Grid {
 		int xp=i;  
 		int yp=j;
 		if(isBorder(i,j)||!CheckIfSurrounded(i,j)) {   //first we must check that the human is not surrounded and can in fact move
-		while(!move) { 
-			//System.out.println("stuck in move while");
-			xp=i;                                      //set new positions equal to current 
-			yp=j;
+		  while(!move) { 
+			  
+		      xp=i;                                      //set new positions equal to current 
+		   	  yp=j;
 			  r=(double) Math.random()*2.0;            // get a random number using Math.random                                  
 			  if(r<=0.25)                              //depending on the value of r get the new postion 
 				  xp++;
@@ -256,12 +280,13 @@ public class Grid {
 				  xp++;
 				  yp++;
 			  }
-			  if(isBorder(i,j)&&(xp<0||xp>=height||yp>=width||xp<0)) { //if the current position of the human is a border and the new one is outside of the grid
+			  if(isBorder(i,j)&&(xp<0||xp>=height||yp>=width||yp<0)) { //if the current position of the human is a border and the new one is outside of the grid
 				  Human temp = human[i][j];
 				  human[i][j]=null;                                    //then set that position as null
-				  DrawOne(i,j,false);                                        //draws the new state of the square
+				  DrawOne(i,j,false);                                  //draws the new state of the square
 				  return temp;                                         //returns the human who has left
 			  }
+			  
 			 if(xp>=0 && xp<height && yp>=0 && yp<width && human[xp][yp]==null) {   //if the human can move to the new position
 				
 				 move=true;                                            //set move as true

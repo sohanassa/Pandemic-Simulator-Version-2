@@ -19,27 +19,26 @@ public class ReadFromUser {
 		boolean flag=false;
 		Simulate s;
 		int amountOfAreas=0;
-		System.out.print("\nGive number of areas: ");
-		   amountOfAreas=in.nextInt();
+		
 		do {
 			try {
 				flag=false;
+				System.out.print("\nGive number of areas: ");
+				amountOfAreas=in.nextInt();
 				System.out.print("\nWould you like a manual simulator? (Yes/No): ");
 				choice=in.next();
 				if(!choice.equalsIgnoreCase("Yes")&&!choice.equalsIgnoreCase("No"))
-					throw new Exception("Must give Yes or No answer");
+					throw new Exception();
 			}
 			catch (Exception e) {
+				in.nextLine();
 				flag=true;
-				System.out.println(e.getMessage());
-				in.hasNextLine();
+				System.out.println("Wrong input, please enter again:");
 			}
 		}while(flag);
 		
 		int h=0,w=0,people=0,time=0,timeSpace=0,maskPers=0,immunePers=0,timeSpaceInfected=0,maskProtection=0;
 		double movingP=0,infectingP=0,infSpaceP=0,spaceInfHuman=0;
-		
-
 			 
 		if(choice.equalsIgnoreCase("No")){
 			 s= new Simulate(amountOfAreas);
