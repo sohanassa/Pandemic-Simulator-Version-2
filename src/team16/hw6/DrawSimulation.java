@@ -20,7 +20,7 @@ public class DrawSimulation {
 	}
 	
 	/**
-	 * This method draws the grid 
+	 * This method draws the grid.
 	 */
 	public void DrawGrid() {
 		StdDraw.clear(StdDraw.WHITE);   // clears the grid
@@ -42,7 +42,8 @@ public class DrawSimulation {
 	}
 
 /**
- * This method Draws a human in given position
+ * This method Draws a human in given position.
+ * 
  * @param x represents the row
  * @param y represents the column
  * @param c colour of the human
@@ -55,7 +56,8 @@ public void DrawHuman(int x, int y, Color c, boolean waitFlag) {
 }
 	
 /**
- * This method Draws infected areas red
+ * This method Draws infected areas red.
+ * 
  * @param i represents the row
  * @param j represents the column
  */
@@ -66,7 +68,8 @@ public void DrawInfectedArea(int i, int j){
 	
 }
 /**
- *  This method Draws Border areas gray
+ *  This method Draws Border areas gray.
+ *  
  * @param i represents the row
  * @param j represents the column
  */
@@ -75,7 +78,8 @@ public void DrawBorder(int i,int j) {
 	StdDraw.filledRectangle(i+0.5, j+0.5, 0.4, 0.4); 
 }
 /**
- *  This method Draws Infected Border areas magenta
+ *  This method Draws Infected Border areas magenta.
+ *  
  * @param i represents the row
  * @param j represents the column
  */
@@ -84,7 +88,8 @@ public void DrawInfectedBorder(int i, int j) {
 	StdDraw.filledRectangle(i+0.5, j+0.5, 0.4, 0.4); 
 }
 /**
- * This method Draws disinfects area
+ * This method Draws disinfects area.
+ * 
  * @param i represents the row
  * @param j represents the column
  */

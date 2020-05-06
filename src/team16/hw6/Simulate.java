@@ -209,17 +209,19 @@ public class Simulate {
 		   for(int i=0; i<time; i++) {                                     //for each minute of the simulation
 			   if(t>=amountOfAreas)                                        //if t is larger than the amount of areas 
 				   t=0;                                                    //reset the value to zero
+			   System.out.println("\nShowing area ("+(t+1)+")!");          
 			   grids[t].setDrawFlag(true);                                 //set flag as true for that grid so it can visually represent the grid
 			   grids[t].drawGrid();                                        //draw the grid
 			   grids[t].drawAll();
 			   
-			  for(int k=0; k<5 && i<time; k++) {
+			  for(int k=0; k<5 && i<time; k++) {                           //every 5 minutes shows a different area 
 				 System.out.println("Minute: "+(i+1));
 			     for(int j=0; j<amountOfAreas; j++) {
 			        runOneMinute(j,grids);                                     //run one minute of it
 			     }
 			     i++;
 			  }
+			  i--;
 			  grids[t].setDrawFlag(false);                                //set the flag as false so it does not visual represent this specific grid again 
 			  t++;                                                        //increase t to move on to next grid
 		   }
