@@ -23,12 +23,12 @@ public class ReadFromUser {
 		do {
 			try {
 				flag=false;
-				System.out.print("\nGive number of areas: ");
-				amountOfAreas=in.nextInt();
+				System.out.print("\nGive number of areas: "); 
+				amountOfAreas=in.nextInt();//gets number of areas
 				System.out.print("\nWould you like a manual simulator? (Yes/No): ");
-				choice=in.next();
+				choice=in.next(); //represents whether or not it will be a manual simulator or not
 				if(!choice.equalsIgnoreCase("Yes")&&!choice.equalsIgnoreCase("No"))
-					throw new Exception();
+					throw new Exception(); //throw exception if answer was not yes/no
 			}
 			catch (Exception e) {
 				in.nextLine();
