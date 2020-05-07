@@ -23,7 +23,7 @@ public class Simulate {
 	private static int time;                      //  time of the simulation
 	private static int timeForSquareToGetInfected;//  time needed for a space to get infected
 	private static int maskProtection;            //  how much the mask protects %100 (100 being full protection)
-	private int amountOfAreas;
+	private int amountOfAreas;                    //amout of areas in the simulation
 	private int cnt=0;                            //  counter for counting how many people got infected
 	private static Random randomizer = new Random();
 	private static Scanner in = new Scanner(System.in);
@@ -260,7 +260,7 @@ public class Simulate {
 					}
 				}
 				if(randomizer.nextDouble()<movingP) {                        //Possibility of moving the humans
-					traveler=g.move(i,j);                                    //returns a human who have left the area or returns null if no one left
+					traveler=g.move(i,j);                                    //returns a human who has left the area or returns null if no one left
 					if(traveler!=null) {                                     //if it returns a human 
 						if(grids[g.getBorderWith(i, j)-1].newHuman(traveler)==true)    // and if new human can be set there (then the new human will be set through the method newHuman) 
 						   System.out.println("\tPerson moved from area "+(area_num+1)+" to area "+g.getBorderWith(i, j));//print where the human moved to
@@ -269,7 +269,7 @@ public class Simulate {
 					}
 				}
 			    else 
-				     g.StayedInSamePosition(i, j);                           //else increase the time stayed in same position
+				     g.StayedInSamePosition(i, j);                           //else if it has not moved increase the time stayed in same position
 				
 			}// null check 
 			}//loop2
