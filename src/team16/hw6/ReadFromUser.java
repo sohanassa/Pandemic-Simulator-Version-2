@@ -1,9 +1,11 @@
 package team16.hw6;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * This class is for reading the inputs from the user and running the simulation based on the inputs given.
+ * This class is for reading the inputs from the user and running the simulation
+ * based on the inputs given.
  * 
  * @author Zoe Passiadou
  * @author Sohaib Nassar
@@ -25,6 +27,8 @@ public class ReadFromUser {
 				flag=false;
 				System.out.print("\nGive number of areas: ");
 				amountOfAreas=in.nextInt();
+				if(amountOfAreas<=0)
+					throw new Exception();
 				System.out.print("\nWould you like a manual simulator? (Yes/No): ");
 				choice=in.next();
 				if(!choice.equalsIgnoreCase("Yes")&&!choice.equalsIgnoreCase("No"))
